@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "740628660139",
+    "project_id": "echame-una-mano-af636",
+    "storage_bucket": "echame-una-mano-af636.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740628660139:android:bd083a1df7b07eb1655cee",
+        "android_client_info": {
+          "package_name": "com.inacap.echameunamano"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740628660139-ki7d5f6cr8iej2ot3pkjudh0g2calh10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmfGs45YMJDPQBFQ7TbWfUStSMWzbmsnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740628660139-ki7d5f6cr8iej2ot3pkjudh0g2calh10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
