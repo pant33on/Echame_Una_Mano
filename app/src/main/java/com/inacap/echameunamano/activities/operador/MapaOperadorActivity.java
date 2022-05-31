@@ -45,6 +45,7 @@ import com.inacap.echameunamano.activities.MainActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.providers.AuthProvider;
 import com.inacap.echameunamano.providers.GeofireProvider;
+import com.inacap.echameunamano.providers.TokenProvider;
 
 public class MapaOperadorActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -58,6 +59,7 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
     private boolean estaConectado = false;
     private LatLng latLngActual;
     private GeofireProvider geofireProvider;
+    private TokenProvider tokenProvider;
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
@@ -107,6 +109,7 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         mapaFragment.getMapAsync(this);
         ubicacionFused = LocationServices.getFusedLocationProviderClient(this);
         geofireProvider = new GeofireProvider();
+        tokenProvider = new TokenProvider();
 
         btnConectarse = findViewById(R.id.btnConectarse);
         btnConectarse.setOnClickListener(new View.OnClickListener() {
@@ -119,10 +122,11 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
                 }
             }
         });
+        generaToken();
     }
 
     void logout() {
-        desconectar();
+        //desconectar();
         authProvider.logout();
         Intent intent = new Intent(MapaOperadorActivity.this, MainActivity.class);
         startActivity(intent);
@@ -269,8 +273,13 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.operador_action_logout){
+            desconectar();
             logout();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void generaToken(){
+        tokenProvider.creaToken(authProvider.getId());
     }
 }

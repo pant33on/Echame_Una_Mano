@@ -21,9 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.activities.cliente.MapaClienteActivity;
 import com.inacap.echameunamano.activities.cliente.RegisterActivity;
+import com.inacap.echameunamano.activities.cliente.TipoServicioActivity;
 import com.inacap.echameunamano.activities.operador.MapaOperadorActivity;
 import com.inacap.echameunamano.activities.operador.RegOperadorActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
+
+import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     DatabaseReference dataBase;
-    AlertDialog dialogo; //Investigar para poner el progress dialog bar
+    AlertDialog dialogo;
 
     SharedPreferences preferencias;
 
@@ -47,7 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         etContraseña = findViewById(R.id.etContraseña);
         btnIngresar = findViewById(R.id.btnIngresar);
 
-        //dialogo = new SpotsDialog...
+        //Dialogo loquillo
+        dialogo = new SpotsDialog(LoginActivity.this, R.style.Custom);
+
         preferencias = getApplicationContext().getSharedPreferences("tipoUsuario", MODE_PRIVATE);
 
         auth = FirebaseAuth.getInstance();
@@ -67,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(!email.isEmpty() && !pass.isEmpty()){
             if(pass.length() >= 6){
+                dialogo.show();
                 auth.signInWithEmailAndPassword(email, pass)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -74,17 +80,20 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()){
                                     String usuario = preferencias.getString("usuario","");
                                     if(usuario.equals("cliente")){
-                                        Intent intent = new Intent(LoginActivity.this, MapaClienteActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, TipoServicioActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
+                                        finish();
                                     }else{
                                         Intent intent = new Intent(LoginActivity.this, MapaOperadorActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }else{
                                     Toast.makeText(LoginActivity.this, "Correo electrónico o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                                 }
+                                dialogo.hide();
                             }
                         });
             }else{
