@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.operador.NotificacionActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animacionNotificacion"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+
+                    android:scaleType="centerCrop"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="not.json"
+                    app:lottie_imageAssetsFolder="assets"
+                    app:lottie_loop="true" />
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="220dp"
+                    android:background="@color/white" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Desde"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvNotificacionOrigen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Avenida Santa Rosa 2533"
+                android:textAlignment="center"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hasta"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="7dp"/>
+
+            <TextView
+                android:id="@+id/tvNotificacionDestino"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mall Costanera Center"
+                android:textAlignment="center"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="9dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tiempo de llegada"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tvNotificacionTiempo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 min"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Distancia"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tvNotificacionDistancia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 km"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvContador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="60"
+                android:textAlignment="center"
+                android:textSize="42sp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNotificacionAceptar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Aceptar"
+            android:background="@drawable/boton_redondeado"
+            android:backgroundTint="@color/colorAzul"
+            android:layout_weight="1"
+            android:textColor="@color/white"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNotificacionCancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Cancelar"
+            android:background="@drawable/boton_redondeado"
+            android:backgroundTint="@color/colorPrimario"
+            android:layout_weight="1"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

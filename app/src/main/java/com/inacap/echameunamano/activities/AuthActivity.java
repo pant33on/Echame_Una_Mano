@@ -15,9 +15,9 @@ import com.inacap.echameunamano.includes.MyToolbar;
 
 public class AuthActivity extends AppCompatActivity {
 
-    Button btnIrLogin;
-    Button btnIrRegistro;
-    SharedPreferences preferencias;
+    private Button btnIrLogin;
+    private Button btnIrRegistro;
+    private SharedPreferences preferencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
         MyToolbar.show(this, "Seleccionar opción", true);
 
+        //HACER ALGO SIMILAR PARA LA SELECCION DE TIPO DE SERVICIO
         preferencias = getApplicationContext().getSharedPreferences("tipoUsuario", MODE_PRIVATE);
         btnIrLogin = findViewById(R.id.btnIrLogin);
         btnIrLogin.setOnClickListener(new View.OnClickListener() {
@@ -45,15 +46,21 @@ public class AuthActivity extends AppCompatActivity {
     public void irALogin() {
         Intent intent = new Intent(AuthActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
+
+    //HACER ALGO SIMILAR PARA LA SELECCION DE TIPO DE SERVICIO
+    //HACER ALGO SIMILAR PARA LA SELECCION DE TIPO DE SERVICIO
     public void irARegister() {
         String tipoUsuario = preferencias.getString("usuario", "");
         if(tipoUsuario.equals("cliente")){
             Intent intent = new Intent(AuthActivity.this, RegisterActivity.class);
             startActivity(intent);
+            finish();
         }else{
             Intent intent = new Intent(AuthActivity.this, RegOperadorActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 }
