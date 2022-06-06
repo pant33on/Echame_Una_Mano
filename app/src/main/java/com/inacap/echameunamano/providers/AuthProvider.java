@@ -24,6 +24,7 @@ public class AuthProvider {
     public String getId(){
         return auth.getCurrentUser().getUid();
     }
+
     public boolean existeSesion(){
         boolean existe = false;
         if(auth.getCurrentUser() != null){

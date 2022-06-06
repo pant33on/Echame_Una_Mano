@@ -12,8 +12,8 @@ public class GeofireProvider {
     private DatabaseReference dataBse;
     private GeoFire geofire;
 
-    public  GeofireProvider (){
-        dataBse = FirebaseDatabase.getInstance().getReference().child("Operadores_activos");
+    public  GeofireProvider (String referencia){
+        dataBse = FirebaseDatabase.getInstance().getReference().child(referencia);
         geofire = new GeoFire(dataBse);
     }
 
@@ -23,10 +23,19 @@ public class GeofireProvider {
     public void borraUbicacion(String id){
         geofire.removeLocation(id);
     }
+
     //Método para obtener conductores cercanos
-    public GeoQuery obtieneOperadores(LatLng latLng){
-        GeoQuery geoQuery = geofire.queryAtLocation(new GeoLocation(latLng.latitude, latLng.longitude), 5);
+    public GeoQuery obtieneOperadores(LatLng latLng, double radio){
+        GeoQuery geoQuery = geofire.queryAtLocation(new GeoLocation(latLng.latitude, latLng.longitude), radio);
         geoQuery.removeAllListeners();
         return geoQuery;
+    }
+
+    public DatabaseReference estaElOperadorOcupado(String idOperador){
+        return FirebaseDatabase.getInstance().getReference().child("Operadores_ocupados").child(idOperador);
+    }
+
+    public DatabaseReference getUbicacionOperador(String idOperador){
+        return dataBse.child(idOperador).child("l");
     }
 }
