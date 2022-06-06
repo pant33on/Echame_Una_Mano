@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -13,9 +14,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EchameUnaMano">
         <activity
+            android:name=".activities.operador.NotificacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.cliente.CalificacionAlOperadorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.operador.CalificacionAlClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.operador.MapaOperadorTransaccionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.cliente.MapaClienteTransaccionActivity"
+            android:exported="false" />
+
+        <receiver
+            android:name=".receivers.AceptarReceiver"
+            android:enabled="true" />
+        <receiver
+            android:name=".receivers.CancelarReceiver"
+            android:enabled="true" />
+
+        <activity
             android:name=".activities.cliente.TipoServicioActivity"
             android:exported="false"
-            android:parentActivityName=".activities.AuthActivity"/>
+            android:parentActivityName=".activities.AuthActivity" />
 
         <service
             android:name=".services.MyFirebaseMessagingService"

@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.activities.MainActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
@@ -49,6 +53,7 @@ import com.inacap.echameunamano.providers.TokenProvider;
 
 public class MapaOperadorActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    //region Variables
     private AuthProvider authProvider;
     private GoogleMap mapa;
     private SupportMapFragment mapaFragment;
@@ -60,9 +65,11 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
     private LatLng latLngActual;
     private GeofireProvider geofireProvider;
     private TokenProvider tokenProvider;
+    private ValueEventListener listener;
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
+    //endregion
 
     private LocationCallback ubicacionCallback = new LocationCallback() {
         @Override
@@ -108,7 +115,8 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         mapaFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapaFragment.getMapAsync(this);
         ubicacionFused = LocationServices.getFusedLocationProviderClient(this);
-        geofireProvider = new GeofireProvider();
+        geofireProvider = new GeofireProvider("Operadores_activos");
+
         tokenProvider = new TokenProvider();
 
         btnConectarse = findViewById(R.id.btnConectarse);
@@ -123,6 +131,24 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
             }
         });
         generaToken();
+        estaElOperadorOcupado();
+    }
+
+    private void estaElOperadorOcupado() {
+        listener = geofireProvider.estaElOperadorOcupado(authProvider.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    //dejar de escuchar la ubicación en tiempo real del "LocationCallBack"
+                    desconectar();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     void logout() {
@@ -206,8 +232,10 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         if(ubicacionFused != null){
             btnConectarse.setText("Conectarse");
             estaConectado = false;
+            //Deja de obtener ubicación en tiempo real
             ubicacionFused.removeLocationUpdates(ubicacionCallback);
             if(authProvider.existeSesion()){
+                //Elimina referencia a nodo de Operadores_activos
                 geofireProvider.borraUbicacion(authProvider.getId());
             }
         }else{
@@ -281,5 +309,17 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
 
     void generaToken(){
         tokenProvider.creaToken(authProvider.getId());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if(listener != null){
+                geofireProvider.estaElOperadorOcupado(authProvider.getId()).removeEventListener(listener);
+            }
+        }catch (Exception E){
+            Log.d("TAG_", E.getMessage());
+        }
     }
 }

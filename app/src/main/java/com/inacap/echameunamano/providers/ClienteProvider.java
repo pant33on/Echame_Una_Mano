@@ -25,4 +25,8 @@ public class ClienteProvider {
         map.put("email", cliente.getEmail());
         return database.child(cliente.getId()).setValue(map);
     }
+
+    public DatabaseReference getCliente(String idCliente){
+        return database.child(idCliente);
+    }
 }

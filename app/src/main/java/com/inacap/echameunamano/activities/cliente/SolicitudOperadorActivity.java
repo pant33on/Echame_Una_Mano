@@ -23,20 +23,19 @@ import com.inacap.echameunamano.modelos.ClienteTransaccion;
 import com.inacap.echameunamano.modelos.FCMBody;
 import com.inacap.echameunamano.modelos.FCMResuesta;
 import com.inacap.echameunamano.providers.AuthProvider;
-import com.inacap.echameunamano.providers.ClienteProvider;
 import com.inacap.echameunamano.providers.ClienteTransaccionProvider;
-import com.inacap.echameunamano.providers.ElDato;
 import com.inacap.echameunamano.providers.GeofireProvider;
 import com.inacap.echameunamano.providers.GoogleApiProvider;
 import com.inacap.echameunamano.providers.NotificacionProvider;
 import com.inacap.echameunamano.providers.OperadorProvider;
 import com.inacap.echameunamano.providers.TokenProvider;
-import com.inacap.echameunamano.utils.DecodePoints;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +51,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SolicitudOperadorActivity extends AppCompatActivity {
+    //region Variables
     private LottieAnimationView animacion;
     private TextView tvBuscando;
     private Button btnCancelarViaje;
@@ -80,6 +80,8 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
 
     private ClienteTransaccionProvider clienteTransaccionProvider;
     private AuthProvider authProvider;
+    private ValueEventListener listener;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
         tvBuscando = findViewById(R.id.tvBuscando);
         btnCancelarViaje = findViewById(R.id.btnCancelarViaje);
         animacion.playAnimation();
-        geofireProvider = new GeofireProvider();
+        geofireProvider = new GeofireProvider("Operadores_activos");
 
         //TRAER DEL SHARED PREFERENCES EL TIPO DE SERVICIO
         preferencias = getApplicationContext().getSharedPreferences("tipoServicio", MODE_PRIVATE);
@@ -111,6 +113,21 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
         authProvider = new AuthProvider();
         googleApiProvider = new GoogleApiProvider(SolicitudOperadorActivity.this);
 
+        btnCancelarViaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelarPeticion();
+            }
+        });
+    }
+
+    private void cancelarPeticion() {
+        clienteTransaccionProvider.eliminar(authProvider.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                enviaNotificacionCancelar();
+            }
+        });
     }
 
     private void obtenOperadorCercano(){
@@ -160,11 +177,10 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.isSuccessful()){
-                    ElDato.dato = String.valueOf(task.getResult().getValue());
-                    if(ElDato.dato.equals("Activo")){
-                        //ElDato.dato = String.join(",", ElDato.respuesta);
+                    String estadoServicio = String.valueOf(task.getResult().getValue());
+                    if(estadoServicio.equals("Activo")){
                         crearClienteTransaccion();
-                        tvBuscando.setText("Se ha encontrado un operador \nEsperando respuesta\n" + ElDato.dato);
+                        tvBuscando.setText("Se ha encontrado un operador \nEsperando respuesta");
                         //enviaNotificacion();
                     }else{
                         operadorEncontrado = false;
@@ -179,7 +195,6 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                         }
                     }
                 }else{
-                    ElDato.dato = "Hubo un problema con la task";
                     Log.d("TAG_","Error: " + task.getException().getMessage());
                 }
             }
@@ -216,7 +231,55 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
         });
     }
 
-    //Método para enviar notificacion
+    //NOTIFICACION CANCELAR NOTIFICACION CANCELAR
+    //NOTIFICACION CANCELAR NOTIFICACION CANCELAR
+    private void enviaNotificacionCancelar(){
+        tokenProvider.getToken(idOperadorEncontrado).addListenerForSingleValueEvent(new ValueEventListener() {
+            //El datasnapshot devuelve del nodo Token: idUsuario + Token
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    //Con este método obtengo token del usuario.
+                    String token = snapshot.child("token").getValue().toString();
+                    Map<String, String> mapa = new HashMap<>();
+                    mapa.put("titulo", "VIAJE CANCELADO");
+                    mapa.put("contenido", "El cliente canceló la solicitud"
+                    );
+                    FCMBody fcmBody = new FCMBody(token, "high", "4500s", mapa);
+                    notificacionProvider.enviaNotificacion(fcmBody).enqueue(new Callback<FCMResuesta>() {
+                        @Override
+                        public void onResponse(Call<FCMResuesta> call, Response<FCMResuesta> response) {
+                            //si llegó respuesta desde el servidor
+                            if(response.body() != null){
+                                if (response.body().getSuccess() == 1){
+                                    Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(SolicitudOperadorActivity.this, TipoServicioActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }else{
+                                    Toast.makeText(SolicitudOperadorActivity.this, "No se pudo enviar la notificación", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(SolicitudOperadorActivity.this, "PROBLEMAS MAYORES", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<FCMResuesta> call, Throwable t) {
+                            Log.d("TAG_", "Error" + t.getMessage());
+                        }
+                    });
+                }else{
+                    Toast.makeText(SolicitudOperadorActivity.this, "NO SE PUEDE HACER SNAPSHOT", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    //MÉTODO ENVIAR NOTIFICACION ENVIAR NOTIFICACION
+    //MÉTODO ENVIAR NOTIFICACION ENVIAR NOTIFICACION
     private void enviaNotificacion(final String tiempo, final String km) {
         tokenProvider.getToken(idOperadorEncontrado).addListenerForSingleValueEvent(new ValueEventListener() {
             //El datasnapshot devuelve del nodo Token: idUsuario + Token
@@ -227,8 +290,20 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                     String token = snapshot.child("token").getValue().toString();
                     Map<String, String> mapa = new HashMap<>();
                     mapa.put("titulo", "SOLICITUD DE SERVICIO A " + tiempo + "DE TU POSICIÓN");
-                    mapa.put("contenido", "Un cliente está solicitando un servicio a una distancia de " + km);
-                    FCMBody fcmBody = new FCMBody(token, "high", mapa);
+                    mapa.put("contenido",
+                            "Un cliente está solicitando un servicio a una distancia de " + km + "\n" +
+                            "Recoger en: " + extraNombreOrigen + "\n" +
+                            "Destino: " + extraNombreDestino);
+
+                    //Enviar datos necesarios a MyFireMessaginBaseService para que este los envíe a NotificationActivity
+                    //Enviar datos necesarios a MyFireMessaginBaseService para que este los envíe a NotificationActivity
+                    mapa.put("idCliente", authProvider.getId());
+                    mapa.put("origen", extraNombreOrigen);
+                    mapa.put("destino", extraNombreDestino);
+                    mapa.put("tiempo", tiempo);
+                    mapa.put("distancia", km);
+
+                    FCMBody fcmBody = new FCMBody(token, "high", "4500s", mapa);
                     notificacionProvider.enviaNotificacion(fcmBody).enqueue(new Callback<FCMResuesta>() {
                         @Override
                         public void onResponse(Call<FCMResuesta> call, Response<FCMResuesta> response) {
@@ -252,7 +327,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                                     clienteTransaccionProvider.crear(clienteTransaccion).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            Toast.makeText(SolicitudOperadorActivity.this, "La petición se creó correctamente", Toast.LENGTH_SHORT).show();
+                                            revisaEstado();
                                         }
                                     });
                                     //Toast.makeText(SolicitudOperadorActivity.this, "La notificación se ha enviado correctamente", Toast.LENGTH_SHORT).show();
@@ -263,7 +338,6 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                                 Toast.makeText(SolicitudOperadorActivity.this, "PROBLEMAS MAYORES", Toast.LENGTH_SHORT).show();
                             }
                         }
-
                         @Override
                         public void onFailure(Call<FCMResuesta> call, Throwable t) {
                             Log.d("TAG_", "Error" + t.getMessage());
@@ -273,12 +347,45 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                     Toast.makeText(SolicitudOperadorActivity.this, "NO SE PUEDE HACER SNAPSHOT", Toast.LENGTH_SHORT).show();
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
 
+    private void revisaEstado() {
+        listener = clienteTransaccionProvider.getEstado(authProvider.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String estado = snapshot.getValue().toString();
+                    if(estado.equals("aceptado")){
+                        Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteTransaccionActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else if(estado.equals("cancelado")){
+                        Toast.makeText(SolicitudOperadorActivity.this, "El operador no aceptó el servicio", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if(listener != null){
+                clienteTransaccionProvider.getEstado(authProvider.getId()).removeEventListener(listener);
+            }
+        }catch (Exception E){
+            Log.d("TAG_", E.getMessage());
+        }
+    }
 }

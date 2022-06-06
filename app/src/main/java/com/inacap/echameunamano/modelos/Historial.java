@@ -1,6 +1,7 @@
 package com.inacap.echameunamano.modelos;
 
-public class ClienteTransaccion {
+public class Historial {
+
     String idHistorial;
     String idCliente;
     String idOperador;
@@ -14,26 +15,16 @@ public class ClienteTransaccion {
     double origenLng;
     double destinoLat;
     double destinoLng;
+    double calificacionCliente;
+    double calificacionOperador;
+    Long fecha;
 
-    public ClienteTransaccion() {
+    public Historial() {
     }
 
-    public ClienteTransaccion(String idCliente, String idOperador, String tipoServicio, String destino, String origen, String tiempo, String km, String estado, double origenLat, double origenLng, double destinoLat, double destinoLng) {
-        this.idCliente = idCliente;
-        this.idOperador = idOperador;
-        this.tipoServicio = tipoServicio;
-        this.destino = destino;
-        this.origen = origen;
-        this.tiempo = tiempo;
-        this.km = km;
-        this.estado = estado;
-        this.origenLat = origenLat;
-        this.origenLng = origenLng;
-        this.destinoLat = destinoLat;
-        this.destinoLng = destinoLng;
-    }
-
-    public ClienteTransaccion(String idHistorial,String idCliente, String idOperador, String tipoServicio, String destino, String origen, String tiempo, String km, String estado, double origenLat, double origenLng, double destinoLat, double destinoLng) {
+    public Historial(String idHistorial, String idCliente, String idOperador, String tipoServicio,
+                     String destino, String origen, String tiempo, String km, String estado, double origenLat,
+                     double origenLng, double destinoLat, double destinoLng) {
         this.idHistorial = idHistorial;
         this.idCliente = idCliente;
         this.idOperador = idOperador;
@@ -47,6 +38,14 @@ public class ClienteTransaccion {
         this.origenLng = origenLng;
         this.destinoLat = destinoLat;
         this.destinoLng = destinoLng;
+    }
+
+    public Long getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Long fecha) {
+        this.fecha = fecha;
     }
 
     public String getIdHistorial() {
@@ -55,6 +54,22 @@ public class ClienteTransaccion {
 
     public void setIdHistorial(String idHistorial) {
         this.idHistorial = idHistorial;
+    }
+
+    public double getCalificacionCliente() {
+        return calificacionCliente;
+    }
+
+    public void setCalificacionCliente(double calificacionCliente) {
+        this.calificacionCliente = calificacionCliente;
+    }
+
+    public double getCalificacionOperador() {
+        return calificacionOperador;
+    }
+
+    public void setCalificacionOperador(double calificacionOperador) {
+        this.calificacionOperador = calificacionOperador;
     }
 
     public String getIdCliente() {

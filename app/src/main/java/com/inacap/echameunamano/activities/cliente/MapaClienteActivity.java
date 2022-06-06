@@ -66,7 +66,7 @@ import java.util.List;
 
 public class MapaClienteActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    //region Atributos
+    //region Variables
     private AuthProvider authProvider;
     private GoogleMap mapa;
     private SupportMapFragment mapaFragment;
@@ -140,7 +140,8 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
         mapaFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapaFragment.getMapAsync(this);
         ubicacionFused = LocationServices.getFusedLocationProviderClient(this);
-        geofireProvider = new GeofireProvider();
+        geofireProvider = new GeofireProvider("Operadores_activos");
+
         btnBuscarServicio = findViewById(R.id.btnBuscarServicio);
         tokenProvider = new TokenProvider();
 
@@ -180,7 +181,7 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
                     Log.d("TAG_", "error : "+ E.getMessage().toString());
                 }
         }else{
-            Toast.makeText(this, "Debe seleccionar el lugar de recogtida y destino", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Debe seleccionar el lugar de origen y destino", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -407,7 +408,6 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
             }
         }
     }
-    //AQUI DEBO FILTRAR OPERADORES QUE OFREZCAN SERVICIO BUSCADO
     //AQUI DEBO FILTRAR OPERADORES QUE OFREZCAN SERVICIO BUSCADO
     //AQUI DEBO FILTRAR OPERADORES QUE OFREZCAN SERVICIO BUSCADO
     //Método para obtener operadores cercanos utiliza método de clase GeofireProvider

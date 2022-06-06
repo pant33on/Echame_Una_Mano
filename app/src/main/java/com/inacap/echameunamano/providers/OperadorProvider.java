@@ -26,4 +26,8 @@ public class OperadorProvider {
         map.put("servicio_neumatico", operador.getNeumatico());
         return database.child(operador.getId()).setValue(map);
     }
+
+    public DatabaseReference getOperador(String idOperador){
+        return database.child(idOperador);
+    }
 }

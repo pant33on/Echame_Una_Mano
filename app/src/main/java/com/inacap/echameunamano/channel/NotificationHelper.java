@@ -50,24 +50,68 @@ public class NotificationHelper extends ContextWrapper {
     //Configuración para Oreo o superior
     @RequiresApi(api = Build.VERSION_CODES.O)
     public  Notification.Builder getNotificationOreo (String titulo,
-            String contenido, PendingIntent intent, Uri sonidoUri){
-        return new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+                                                      String contenido,
+                                                      PendingIntent intent,
+                                                      Uri sonidoUri){
+       return new Notification.Builder(getApplicationContext(),CHANNEL_ID)
                 .setContentTitle(titulo)
                 .setContentText(contenido)
                 .setAutoCancel(true)
                 .setSound(sonidoUri)
                 .setContentIntent(intent)
-                .setSmallIcon(R.drawable.ic_auto);
+                .setSmallIcon(R.drawable.ic_auto)
+                .setStyle(new Notification.BigTextStyle()
+                        .bigText(contenido).setBigContentTitle(titulo));
     }
+    //Notification action Oreo
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public  Notification.Builder getNotificationOreoAction (String titulo,
+                                                            String contenido,
+                                                            Uri sonidoUri,
+                                                            Notification.Action aceptarAccion,
+                                                            Notification.Action cancelarAccion){
+        return new Notification.Builder(getApplicationContext(),CHANNEL_ID)
+                .setContentTitle(titulo)
+                .setContentText(contenido)
+                .setAutoCancel(true)
+                .setSound(sonidoUri)
+                .setSmallIcon(R.drawable.ic_auto)
+                .addAction(aceptarAccion)
+                .addAction(cancelarAccion)
+                .setStyle(new Notification.BigTextStyle()
+                        .bigText(contenido).setBigContentTitle(titulo));
+    }
+
     //Configuración para versiones inferiores a Oreo
     public  NotificationCompat.Builder getNotificationLecagy (String titulo,
-            String contenido, PendingIntent intent, Uri sonidoUri){
+                                                              String contenido,
+                                                              PendingIntent intent,
+                                                              Uri sonidoUri){
         return new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
                 .setContentTitle(titulo)
                 .setContentText(contenido)
                 .setAutoCancel(true)
                 .setSound(sonidoUri)
                 .setContentIntent(intent)
-                .setSmallIcon(R.drawable.ic_auto);
+                .setSmallIcon(R.drawable.ic_auto)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(contenido).setBigContentTitle(titulo));
+    }
+    //Notification action Legacy
+    public  NotificationCompat.Builder getNotificationLecagyAction (String titulo,
+                                                                    String contenido,
+                                                                    Uri sonidoUri,
+                                                                    NotificationCompat.Action aceptarAccion,
+                                                                    NotificationCompat.Action cancelarAccion){
+        return new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
+                .setContentTitle(titulo)
+                .setContentText(contenido)
+                .setAutoCancel(true)
+                .setSound(sonidoUri)
+                .setSmallIcon(R.drawable.ic_auto)
+                .addAction(aceptarAccion)
+                .addAction(cancelarAccion)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(contenido).setBigContentTitle(titulo));
     }
 }
