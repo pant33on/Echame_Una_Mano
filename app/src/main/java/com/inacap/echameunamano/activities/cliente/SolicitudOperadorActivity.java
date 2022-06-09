@@ -69,14 +69,20 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
     private double extraOrigenLng;
     private double extraDestinoLat;
     private double extraDestinoLng;
+    private String tiempoTotal;
+    private String distanciaTotal;
+
     private LatLng origenLatLng;
     private LatLng destinoLatLng;
+
     private double radio = 0.1;
     private boolean operadorEncontrado = false;
     private String idOperadorEncontrado = "";
     private LatLng operadorEncontradoLatLng;
     private NotificacionProvider notificacionProvider;
     private TokenProvider tokenProvider;
+
+
 
     private ClienteTransaccionProvider clienteTransaccionProvider;
     private AuthProvider authProvider;
@@ -103,6 +109,9 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
         extraOrigenLng = getIntent().getDoubleExtra("origen_lng",0);
         extraDestinoLat = getIntent().getDoubleExtra("destino_lat",0);
         extraDestinoLng = getIntent().getDoubleExtra("destino_lng",0);
+        tiempoTotal = getIntent().getStringExtra("tiempo");
+        distanciaTotal = getIntent().getStringExtra("distancia");
+
         origenLatLng = new LatLng(extraOrigenLat, extraOrigenLng);
         destinoLatLng = new LatLng(extraDestinoLat, extraDestinoLng);
 
@@ -280,7 +289,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
 
     //MÉTODO ENVIAR NOTIFICACION ENVIAR NOTIFICACION
     //MÉTODO ENVIAR NOTIFICACION ENVIAR NOTIFICACION
-    private void enviaNotificacion(final String tiempo, final String km) {
+    private void enviaNotificacion(final String min, final String km) {
         tokenProvider.getToken(idOperadorEncontrado).addListenerForSingleValueEvent(new ValueEventListener() {
             //El datasnapshot devuelve del nodo Token: idUsuario + Token
             @Override
@@ -289,7 +298,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                     //Con este método obtengo token del usuario.
                     String token = snapshot.child("token").getValue().toString();
                     Map<String, String> mapa = new HashMap<>();
-                    mapa.put("titulo", "SOLICITUD DE SERVICIO A " + tiempo + "DE TU POSICIÓN");
+                    mapa.put("titulo", "SOLICITUD DE SERVICIO A " + min + "DE TU POSICIÓN");
                     mapa.put("contenido",
                             "Un cliente está solicitando un servicio a una distancia de " + km + "\n" +
                             "Recoger en: " + extraNombreOrigen + "\n" +
@@ -300,7 +309,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                     mapa.put("idCliente", authProvider.getId());
                     mapa.put("origen", extraNombreOrigen);
                     mapa.put("destino", extraNombreDestino);
-                    mapa.put("tiempo", tiempo);
+                    mapa.put("tiempo", min);
                     mapa.put("distancia", km);
 
                     FCMBody fcmBody = new FCMBody(token, "high", "4500s", mapa);
@@ -316,8 +325,8 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                                             preferencias.getString("servicio", ""),
                                             extraNombreDestino,
                                             extraNombreOrigen,
-                                            tiempo,
-                                            km,
+                                            tiempoTotal,
+                                            distanciaTotal,
                                             "creado",
                                             origenLatLng.latitude,
                                             origenLatLng.longitude,

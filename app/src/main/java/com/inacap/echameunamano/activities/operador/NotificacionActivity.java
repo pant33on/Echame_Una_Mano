@@ -129,7 +129,7 @@ public class NotificacionActivity extends AppCompatActivity {
 
         Intent intent = new Intent(NotificacionActivity.this, MapaOperadorActivity.class);
         startActivity(intent);
-        //finish();
+        finish();
     }
 
     private void aceptarTransaccion() {
@@ -162,7 +162,7 @@ public class NotificacionActivity extends AppCompatActivity {
                     if(handler != null) handler.removeCallbacks(runnable);
                     Intent intent = new Intent(NotificacionActivity.this, MapaOperadorActivity.class);
                     startActivity(intent);
-                    //finish();
+                    finish();
                 }
             }
 
@@ -215,7 +215,7 @@ public class NotificacionActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+    /*@Override
     protected void onDestroy() {
         try {
             super.onDestroy();
@@ -231,5 +231,5 @@ public class NotificacionActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.d("TAG_", e.getMessage());
         }
-    }
+    }*/
 }

@@ -49,6 +49,9 @@ public class DetalleSolicitudActivity extends AppCompatActivity implements OnMap
     private String extraNombreOrigen;
     private String extraNombreDestino;
 
+    private String tiempoFinal;
+    private String distanciaFinal;
+
     private GoogleApiProvider googleApiProvider;
     private List<LatLng> polyLineLista;
     private PolylineOptions polylineOpciones;
@@ -103,6 +106,8 @@ public class DetalleSolicitudActivity extends AppCompatActivity implements OnMap
         intent.putExtra("destino",extraNombreDestino);
         intent.putExtra("destino_lat",destinoLatLng.latitude);
         intent.putExtra("destino_lng",destinoLatLng.longitude);
+        intent.putExtra("tiempo",tiempoFinal);
+        intent.putExtra("distancia",distanciaFinal);
         startActivity(intent);
         finish();
     }
@@ -132,11 +137,11 @@ public class DetalleSolicitudActivity extends AppCompatActivity implements OnMap
                     JSONObject leg = legs.getJSONObject(0);
                     JSONObject distance = leg.getJSONObject("distance");
                     JSONObject duration = leg.getJSONObject("duration");
-                    String distanciaText = distance.getString("text");
-                    String duracionText = duration.getString("text");
+                    tiempoFinal = duration.getString("text");
+                    distanciaFinal = distance.getString("text");
 
-                    tvTiempo.setText(duracionText);
-                    tvDistancia.setText(distanciaText);
+                    tvTiempo.setText(tiempoFinal);
+                    tvDistancia.setText(distanciaFinal);
 
                 } catch (Exception e){
                     Log.d("TAG_","Error: " + e.getMessage());
