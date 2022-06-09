@@ -175,6 +175,8 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
             public void onClick(View view) {
                 if(estaCerca){
                     iniciarViaje();
+                    //
+                    estaCerca = false;
                 }else{
                     Toast.makeText(MapaOperadorTransaccionActivity.this, "Debes estar más cerca del cliente para Iniciar Viaje", Toast.LENGTH_SHORT).show();
                 }
@@ -185,6 +187,10 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
             public void onClick(View view) {
                 finalizarViaje();
             }
+            //ACA AGREGAR VERIFICACIÓN QUE ESTÁ LLEGANDO A PUNTO DE DESTINO
+            //ACA AGREGAR VERIFICACIÓN QUE ESTÁ LLEGANDO A PUNTO DE DESTINO
+
+
         });
     }
 
