@@ -298,12 +298,11 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
         ubicacionRequest = LocationRequest.create();
         ubicacionRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         ubicacionDeInicio();
+        //
+        ubicacionRequest.setInterval(5000);
+        ubicacionRequest.setFastestInterval(1000);
+        ubicacionRequest.setSmallestDisplacement(5);
 
-        /*if(ubicacionFused.getLastLocation().equals(origenLatLng)){
-            ubicacionRequest.setInterval(5000);
-            ubicacionRequest.setFastestInterval(1000);
-            ubicacionRequest.setSmallestDisplacement(5);
-        }*/
 
     }
 
