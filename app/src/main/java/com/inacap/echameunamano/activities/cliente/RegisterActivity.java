@@ -3,6 +3,7 @@ package com.inacap.echameunamano.activities.cliente;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,12 +17,15 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.inacap.echameunamano.R;
+import com.inacap.echameunamano.activities.LoginActivity;
 import com.inacap.echameunamano.activities.operador.MapaOperadorActivity;
 import com.inacap.echameunamano.activities.operador.RegOperadorActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.modelos.Cliente;
 import com.inacap.echameunamano.providers.AuthProvider;
 import com.inacap.echameunamano.providers.ClienteProvider;
+
+import dmax.dialog.SpotsDialog;
 
 public class RegisterActivity extends AppCompatActivity {
     AuthProvider authProvider;
@@ -32,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextInputEditText etNombre;
     TextInputEditText etEmail;
     TextInputEditText etContraseña;
+    AlertDialog dialogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
         etNombre = findViewById(R.id.etNombre);
         etEmail = findViewById(R.id.etEmail);
         etContraseña = findViewById(R.id.etContraseña);
-
+        //Dialogo loquillo
+        dialogo = new SpotsDialog(RegisterActivity.this, R.style.Custom);
 
         authProvider = new AuthProvider();
         clienteProvider = new ClienteProvider();
@@ -62,6 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         String pass = etContraseña.getText().toString();
         if(!nombre.isEmpty() && !email.isEmpty() && !pass.isEmpty()){
             if(pass.length()>=6){
+                dialogo.show();
                 registra(nombre, email, pass);
             }else{
                 Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
@@ -75,6 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         authProvider.register(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                dialogo.hide();
                 if(task.isSuccessful()){
                     String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     Cliente cliente = new Cliente(id, nombre, email);
@@ -91,12 +99,11 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    //Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, MapaClienteActivity.class);
-
+                    Intent intent = new Intent(RegisterActivity.this, TipoServicioActivity.class);
                     //Con esta función aseguramos que al apretar volver no pueda volver a pantalla de registro
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                    finish();
                 }else{
                     Toast.makeText(RegisterActivity.this, "No se pudo crear el cliente", Toast.LENGTH_SHORT).show();
                 }
