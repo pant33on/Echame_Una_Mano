@@ -66,7 +66,10 @@ dependencies {
     //Dependencias Cloud messaging
     implementation 'com.google.firebase:firebase-messaging:23.0.5'
 
-    //
+    //Dependencia Storage
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    //Dependencia compresion
+    implementation 'id.zelory:compressor:2.1.1'
 
     //De Github Spots progress dialog
     implementation 'com.github.d-max:spots-dialog:0.7@aar'

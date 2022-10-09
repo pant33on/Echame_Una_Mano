@@ -9,6 +9,7 @@ public class Operador {
     String grua;
     String bateria;
     String neumatico;
+    String imagen = "";
 
 
     public Operador() {
@@ -23,6 +24,14 @@ public class Operador {
         this.grua = grua;
         this.bateria = bateria;
         this.neumatico = neumatico;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getGrua() {

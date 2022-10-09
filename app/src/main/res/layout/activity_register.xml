@@ -101,8 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_margin="30dp">
+            android:gravity="bottom">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRegistrar"
@@ -112,7 +111,8 @@
                 android:background="@drawable/boton_redondeado"
                 android:backgroundTint="@color/colorAzul"
                 android:textColor="@color/white"
-                />
+                android:layout_gravity="bottom"
+                android:layout_margin="5dp"/>
         </LinearLayout>
 
 

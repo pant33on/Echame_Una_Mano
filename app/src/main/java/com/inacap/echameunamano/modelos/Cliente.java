@@ -4,13 +4,30 @@ public class Cliente {
     String id ="";
     String nombre = "";
     String email = "";
+    String imagen = "";
 
     public Cliente(String id, String nombre, String email) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
     }
+
     public Cliente() {
+    }
+
+    public Cliente(String id, String nombre, String email, String imagen) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.imagen = imagen;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getId() {
