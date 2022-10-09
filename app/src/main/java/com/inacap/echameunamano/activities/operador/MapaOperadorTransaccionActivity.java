@@ -101,6 +101,7 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
     private TextView tvDestinoTransaccion;
     private boolean esPrimeraConexion = true;
     private boolean estaCerca = false;
+    private boolean estaCercaFin = false;
 
     private LatLng origenLatLng;
     private LatLng destinoLatLng;
@@ -176,21 +177,24 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
                 if(estaCerca){
                     iniciarViaje();
                     //
-                    estaCerca = false;
+                    estaCercaFin = false;
                 }else{
-                    Toast.makeText(MapaOperadorTransaccionActivity.this, "Debes estar más cerca del cliente para Iniciar Viaje", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapaOperadorTransaccionActivity.this, "Debes estar más cerca del cliente para Iniciar Viaje", Toast.LENGTH_LONG).show();
                 }
             }
         });
         btnFinalizarViaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //ACA AGREGAR VERIFICACIÓN QUE ESTÁ LLEGANDO A PUNTO DE DESTINO
+                //ACA AGREGAR VERIFICACIÓN QUE ESTÁ LLEGANDO A PUNTO DE DESTINO
+                /*if(estaCercaFin){
+                    finalizarViaje();
+                }else{
+                    Toast.makeText(MapaOperadorTransaccionActivity.this, "Debes estar más cerca del destino para Finalizar Viaje", Toast.LENGTH_LONG).show();
+                }*/
                 finalizarViaje();
             }
-            //ACA AGREGAR VERIFICACIÓN QUE ESTÁ LLEGANDO A PUNTO DE DESTINO
-            //ACA AGREGAR VERIFICACIÓN QUE ESTÁ LLEGANDO A PUNTO DE DESTINO
-
-
         });
     }
 
@@ -331,7 +335,17 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
                     if(distancia <= 200){
                         //btnIniciarViaje.setEnabled(true);
                         estaCerca = true;
-                        Toast.makeText(this, "Estás llegando a la ubicación del cliente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Estás llegando a la ubicación del cliente", Toast.LENGTH_LONG).show();
+                    }
+                }
+                //PARA SABER SI ESTÁ CERCA DEL DESTINO
+                //PARA SABER SI ESTÁ CERCA DEL DESTINO
+                if(destinoLatLng != null && latLngActual != null){
+                    double distancia = getDistanciaEntre(destinoLatLng, latLngActual); //retorna valor en metros =)
+                    if(distancia <= 200){
+                        //btnIniciarViaje.setEnabled(true);
+                        estaCercaFin = true;
+                        Toast.makeText(this, "Estás llegando al lugar de destino", Toast.LENGTH_LONG).show();
                     }
                 }
             }

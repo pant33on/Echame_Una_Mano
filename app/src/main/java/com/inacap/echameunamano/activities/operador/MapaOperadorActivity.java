@@ -46,6 +46,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.activities.MainActivity;
+import com.inacap.echameunamano.activities.cliente.ActualizaPerfilActivity;
+import com.inacap.echameunamano.activities.cliente.MapaClienteActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.providers.AuthProvider;
 import com.inacap.echameunamano.providers.GeofireProvider;
@@ -303,6 +305,10 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         if(item.getItemId() == R.id.operador_action_logout){
             desconectar();
             logout();
+        }
+        if(item.getItemId() == R.id.action_update){
+            Intent intent = new Intent(MapaOperadorActivity.this, ActualizarPerfilOperadorActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

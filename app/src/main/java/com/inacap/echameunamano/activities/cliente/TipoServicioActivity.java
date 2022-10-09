@@ -119,6 +119,10 @@ public class TipoServicioActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.cliente_action_logout){
             logout();
         }
+        if(item.getItemId() == R.id.action_update){
+            Intent intent = new Intent(TipoServicioActivity.this, ActualizaPerfilActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
