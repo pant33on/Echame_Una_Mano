@@ -70,6 +70,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     //Dependencia compresion
     implementation 'id.zelory:compressor:2.1.1'
+    //Dependencia picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    //DependenciaFirebase UI
+    implementation 'com.firebaseui:firebase-ui-database:7.2.0'
 
     //De Github Spots progress dialog
     implementation 'com.github.d-max:spots-dialog:0.7@aar'

@@ -34,6 +34,7 @@ import com.inacap.echameunamano.providers.GoogleApiProvider;
 import com.inacap.echameunamano.providers.OperadorProvider;
 import com.inacap.echameunamano.providers.TokenProvider;
 import com.inacap.echameunamano.utils.DecodePoints;
+import com.squareup.picasso.Picasso;
 
 import android.Manifest;
 import android.content.Intent;
@@ -42,6 +43,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -87,6 +89,7 @@ public class MapaClienteTransaccionActivity extends AppCompatActivity implements
     private TextView tvOrigenTransaccion;
     private TextView tvDestinoTransaccion;
     private TextView tvEstadoTransaccion;
+    private ImageView imageViewTransaccion;
     //endregion
 
     @Override
@@ -113,6 +116,7 @@ public class MapaClienteTransaccionActivity extends AppCompatActivity implements
         tvOrigenTransaccion = findViewById(R.id.tvOrigenTransaccion);
         tvDestinoTransaccion = findViewById(R.id.tvDestinoTransaccion);
         tvEstadoTransaccion = findViewById(R.id.tvEstadoTransaccion);
+        imageViewTransaccion = findViewById(R.id.imageViewTransaccion);
 
         getEstado();
         getClienteTransaccion();
@@ -190,6 +194,11 @@ public class MapaClienteTransaccionActivity extends AppCompatActivity implements
                 if(snapshot.exists()){
                     String nombre = snapshot.child("nombre").getValue().toString();
                     String email = snapshot.child("email").getValue().toString();
+                    String imagen = "";
+                    if(snapshot.hasChild("imagen")){
+                        imagen = snapshot.child("imagen").getValue().toString();
+                        Picasso.with(MapaClienteTransaccionActivity.this).load(imagen).into(imageViewTransaccion);
+                    }
                     tvNombreOperadorTransaccion.setText("Nombre operador: " + nombre);
                     tvEmailOperadorTransaccion.setText("Email operador: " + email);
                 }
