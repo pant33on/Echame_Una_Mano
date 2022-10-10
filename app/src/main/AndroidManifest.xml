@@ -15,9 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EchameUnaMano">
         <activity
+            android:name=".activities.cliente.HistorialClienteActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.cliente.MapaClienteActivity" />
+        <activity
             android:name=".activities.operador.ActualizarPerfilOperadorActivity"
             android:exported="false"
-            android:parentActivityName=".activities.operador.MapaOperadorActivity"/>
+            android:parentActivityName=".activities.operador.MapaOperadorActivity" />
         <activity
             android:name=".activities.cliente.ActualizaPerfilActivity"
             android:exported="false"

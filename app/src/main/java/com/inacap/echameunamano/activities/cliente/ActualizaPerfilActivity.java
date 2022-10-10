@@ -26,6 +26,7 @@ import com.inacap.echameunamano.providers.ClienteProvider;
 import com.inacap.echameunamano.providers.ImagenProvider;
 import com.inacap.echameunamano.utils.CompressorBitmapImage;
 import com.inacap.echameunamano.utils.FileUtil;
+import com.squareup.picasso.Picasso;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -107,25 +108,17 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
         }
     }
 
-    /*ActivityResultLauncher<Intent> abrirGaleria = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode() == RESULT_OK){
-              try {
-                  imgFile = FileUtil.from(this, result.getData().getData());
-              }catch (Exception e){
-                  Log.d("ERROR", "Mensaje: "+e.getMessage());
-              }
-            }
-        }
-    });*/
-
     private void getClienteInfo(){
         clienteProvider.getCliente(authProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     String nombre = snapshot.child("nombre").getValue().toString();
+                    String imagen = "";
+                    if(snapshot.hasChild("imagen")){
+                        imagen = snapshot.child("imagen").getValue().toString();
+                        Picasso.with(ActualizaPerfilActivity.this).load(imagen).into(imageViewPerfil);
+                    }
                     etNombre.setText(nombre);
                 }
             }

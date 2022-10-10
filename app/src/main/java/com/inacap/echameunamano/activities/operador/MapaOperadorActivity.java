@@ -47,6 +47,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.activities.MainActivity;
 import com.inacap.echameunamano.activities.cliente.ActualizaPerfilActivity;
+import com.inacap.echameunamano.activities.cliente.HistorialClienteActivity;
 import com.inacap.echameunamano.activities.cliente.MapaClienteActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.providers.AuthProvider;
@@ -309,6 +310,10 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         if(item.getItemId() == R.id.action_update){
             Intent intent = new Intent(MapaOperadorActivity.this, ActualizarPerfilOperadorActivity.class);
             startActivity(intent);
+        }
+        if(item.getItemId() == R.id.action_historial){
+            //Intent intent = new Intent(MapaOperadorActivity.this, HistorialOperadorActivity.class);
+            //startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

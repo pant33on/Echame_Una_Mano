@@ -13,12 +13,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
 import com.inacap.echameunamano.R;
+import com.inacap.echameunamano.activities.cliente.ActualizaPerfilActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.modelos.Operador;
 import com.inacap.echameunamano.providers.AuthProvider;
 import com.inacap.echameunamano.providers.ImagenProvider;
 import com.inacap.echameunamano.providers.OperadorProvider;
 import com.inacap.echameunamano.utils.FileUtil;
+import com.squareup.picasso.Picasso;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -165,7 +167,12 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
                     servicio_grua = snapshot.child("servicio_grua").getValue().toString();
                     servicio_bateria = snapshot.child("servicio_bateria").getValue().toString();
                     servicio_neumatico = snapshot.child("servicio_neumatico").getValue().toString();
-                    //String imagen = snapshot.child("imagen").getValue().toString();
+                    String imagen = "";
+                    if(snapshot.hasChild("imagen")){
+                        imagen = snapshot.child("imagen").getValue().toString();
+                        Picasso.with(ActualizarPerfilOperadorActivity.this).load(imagen).into(imageViewPerfil);
+                    }
+
                     etNombre.setText(nombre);
                     etMarcaVehiculo.setText(marcaVehiculo);
                     etPatente.setText(patente);
