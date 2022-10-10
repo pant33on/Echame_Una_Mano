@@ -484,6 +484,10 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
             Intent intent = new Intent(MapaClienteActivity.this, ActualizaPerfilActivity.class);
             startActivity(intent);
         }
+        if(item.getItemId() == R.id.action_historial){
+            Intent intent = new Intent(MapaClienteActivity.this, HistorialClienteActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

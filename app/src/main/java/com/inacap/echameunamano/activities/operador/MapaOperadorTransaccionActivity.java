@@ -41,6 +41,7 @@ import com.inacap.echameunamano.providers.GoogleApiProvider;
 import com.inacap.echameunamano.providers.NotificacionProvider;
 import com.inacap.echameunamano.providers.TokenProvider;
 import com.inacap.echameunamano.utils.DecodePoints;
+import com.squareup.picasso.Picasso;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -59,6 +60,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +89,7 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
     private Button btnIniciarViaje;
     private Button btnFinalizarViaje;
     private NotificacionProvider notificacionProvider;
+    private ImageView imageViewTransaccion;
 
 
     private final static int LOCATION_REQUEST_CODE = 1;
@@ -154,6 +157,7 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
         ubicacionFused = LocationServices.getFusedLocationProviderClient(this);
         geofireProvider = new GeofireProvider("Operadores_ocupados");
         tokenProvider = new TokenProvider();
+        notificacionProvider = new NotificacionProvider();
 
         clienteProvider = new ClienteProvider();
         clienteTransaccionProvider = new ClienteTransaccionProvider();
@@ -164,7 +168,7 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
         tvDestinoTransaccion = findViewById(R.id.tvDestinoTransaccion);
         btnIniciarViaje = findViewById(R.id.btnIniciarViaje);
         btnFinalizarViaje = findViewById(R.id.btnFinalizarViaje);
-        notificacionProvider = new NotificacionProvider();
+        imageViewTransaccion = findViewById(R.id.imageViewTransaccion);
 
         googleApiProvider = new GoogleApiProvider(MapaOperadorTransaccionActivity.this);
         extraIdCliente = getIntent().getStringExtra("idCliente");
@@ -312,6 +316,13 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
                 if(snapshot.exists()){
                     String nombre = snapshot.child("nombre").getValue().toString();
                     String email = snapshot.child("email").getValue().toString();
+
+                    String imagen = "";
+                    if(snapshot.hasChild("imagen")){
+                        imagen = snapshot.child("imagen").getValue().toString();
+                        Picasso.with(MapaOperadorTransaccionActivity.this).load(imagen).into(imageViewTransaccion);
+                    }
+
                     tvNombreClienteTransaccion.setText("Nombre cliente: " + nombre);
                     tvEmailClienteTransaccion.setText("Email cliente: " + email);
                 }
