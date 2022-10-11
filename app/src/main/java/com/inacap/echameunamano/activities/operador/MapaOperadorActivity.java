@@ -312,8 +312,8 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
             startActivity(intent);
         }
         if(item.getItemId() == R.id.action_historial){
-            //Intent intent = new Intent(MapaOperadorActivity.this, HistorialOperadorActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(MapaOperadorActivity.this, HistorialOperadorActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

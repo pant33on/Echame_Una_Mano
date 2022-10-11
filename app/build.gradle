@@ -74,6 +74,10 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     //DependenciaFirebase UI
     implementation 'com.firebaseui:firebase-ui-database:7.2.0'
+    //Dependencia Shapeofview
+    implementation 'io.github.florent37:shapeofview:1.4.7'
+    //Dependencia Circleimageview
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     //De Github Spots progress dialog
     implementation 'com.github.d-max:spots-dialog:0.7@aar'

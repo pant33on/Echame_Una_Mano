@@ -132,7 +132,7 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
 
     private void actualizaPerfil() {
         nombre = etNombre.getText().toString();
-        if (!nombre.equals("") && imageFile != null){
+        if (!nombre.equals("")){
             progressDialog.setMessage("Espere un momento...");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();

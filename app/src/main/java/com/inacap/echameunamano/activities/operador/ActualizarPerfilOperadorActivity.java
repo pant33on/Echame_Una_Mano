@@ -195,7 +195,7 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
         marcaVehiculo = etMarcaVehiculo.getText().toString();
         patente = etPatente.getText().toString();
 
-        if (!nombre.equals("") && !marcaVehiculo.equals("") && !patente.equals("") && imageFile != null){
+        if (!nombre.equals("") && !marcaVehiculo.equals("") && !patente.equals("")){
             progressDialog.setMessage("Espere un momento...");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.cliente.DetalleHistorialClienteActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <io.github.florent37.shapeofview.shapes.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:elevation="4dp"
+            app:shape_arc_height="20dp"
+            app:shape_arc_position="bottom"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimarioDark"/>
+
+            <TextView
+                android:id="@+id/tvNombreDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Humberto Vélez"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_margin="35dp"/>
+        </io.github.florent37.shapeofview.shapes.ArcView>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_servicio"
+            android:layout_marginTop="85dp"/>
+        <TextView
+            android:id="@+id/tvServicioDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Servicio: Servicio de grúa"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_precio2"
+            android:layout_marginTop="15dp"/>
+        <TextView
+            android:id="@+id/tvValorDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Valor: $15.000"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_localizacion"
+            android:layout_marginTop="15dp"/>
+        <TextView
+            android:id="@+id/tvOrigenDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Origen: Monjitas 980"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_mapa"
+            android:layout_marginTop="15dp"/>
+        <TextView
+            android:id="@+id/tvDestinoDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Destino: Avenida Providencia 6020"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_viejita"
+            android:layout_marginTop="15dp"/>
+        <TextView
+            android:id="@+id/tvDistanciaDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Distancia: 15.0 km"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="15sp"/>
+
+
+    </LinearLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imagenDetalle"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/man"
+        android:layout_gravity="center|top"
+        app:civ_border_width="5dp"
+        app:civ_border_color="@color/white"
+        android:layout_marginTop="75dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/btnVolver"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_volver2"
+        android:layout_gravity="left|top"
+        app:civ_circle_background_color="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <RatingBar
+        android:id="@+id/calificacionDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:numStars="5"
+        android:isIndicator="true"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="10dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

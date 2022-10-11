@@ -26,29 +26,36 @@ import com.inacap.echameunamano.activities.operador.MapaOperadorActivity;
 import com.inacap.echameunamano.activities.operador.RegOperadorActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextInputEditText etEmail;
-    TextInputEditText etContraseña;
-    Button btnIngresar;
-
-    FirebaseAuth auth;
-    DatabaseReference dataBase;
-    AlertDialog dialogo;
-
-    SharedPreferences preferencias;
+    private TextInputEditText etEmail;
+    private TextInputEditText etContraseña;
+    private Button btnIngresar;
+    private CircleImageView btnVolver;
+    private FirebaseAuth auth;
+    private DatabaseReference dataBase;
+    private AlertDialog dialogo;
+    private SharedPreferences preferencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        MyToolbar.show(this, "Login de usuario", true);
+        //MyToolbar.show(this, "Login de usuario", true);
 
         etEmail = findViewById(R.id.etEmail);
         etContraseña = findViewById(R.id.etContraseña);
         btnIngresar = findViewById(R.id.btnIngresar);
+        btnVolver = findViewById(R.id.btnVolver);
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         //Dialogo loquillo
         dialogo = new SpotsDialog(LoginActivity.this, R.style.Custom);

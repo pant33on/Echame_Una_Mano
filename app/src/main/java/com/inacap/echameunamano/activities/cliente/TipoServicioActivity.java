@@ -123,6 +123,10 @@ public class TipoServicioActivity extends AppCompatActivity {
             Intent intent = new Intent(TipoServicioActivity.this, ActualizaPerfilActivity.class);
             startActivity(intent);
         }
+        if(item.getItemId() == R.id.action_historial){
+            Intent intent = new Intent(TipoServicioActivity.this, HistorialClienteActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
