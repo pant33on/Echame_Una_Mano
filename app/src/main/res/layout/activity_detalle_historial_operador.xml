@@ -88,7 +88,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_mapa"
+            android:src="@drawable/ic_mapa2"
             android:layout_marginTop="15dp"/>
         <TextView
             android:id="@+id/tvDestinoDetalle"

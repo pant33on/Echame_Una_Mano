@@ -86,7 +86,7 @@ public class DetalleHistorialOperadorActivity extends AppCompatActivity {
                     tvDistanciaDetalle.setText("Distancia: "+historial.getKm());
 
                     if(snapshot.hasChild("calificacionOperador")){
-                        calificacionDetalle.setRating((float) historial.getCalificacionOperador());
+                        calificacionDetalle.setRating((float) historial.getCalificacionCliente());
                     }
 
                     //Función para traer nombre e imagen de operador a partir de su Id

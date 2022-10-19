@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.inacap.echameunamano.R;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.inacap.echameunamano.activities.MainActivity;
 import com.inacap.echameunamano.activities.cliente.DetalleHistorialClienteActivity;
 import com.inacap.echameunamano.modelos.Historial;
 import com.inacap.echameunamano.providers.OperadorProvider;
@@ -46,11 +47,16 @@ public class HistorialClienteAdapter extends FirebaseRecyclerAdapter<Historial, 
         String servicio = String.valueOf(historial.getTipoServicio());
         if(servicio.equals("servicio_grua")){
             holder.tvServicio.setText("Servicio de grúa");
+            //MainActivity.contador.contar("grua");
         }else if(servicio.equals("servicio_bateria")){
             holder.tvServicio.setText("Servicio de batería");
+            //MainActivity.contador.contar("bateria");
         }else if(servicio.equals("servicio_neumatico")){
             holder.tvServicio.setText("Servicio de neumático");
+            //MainActivity.contador.contar("neumatico");
         }
+
+
 
         //Función para traer nombre e imagen de operador a partir de su Id
         operadorProvider.getOperador(historial.getIdOperador()).addListenerForSingleValueEvent(new ValueEventListener() {

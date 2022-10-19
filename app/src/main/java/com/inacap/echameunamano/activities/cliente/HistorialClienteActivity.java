@@ -33,6 +33,7 @@ public class HistorialClienteActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -59,4 +60,5 @@ public class HistorialClienteActivity extends AppCompatActivity {
         super.onStop();
         adaptador.stopListening();
     }
+
 }

@@ -7,6 +7,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.inacap.echameunamano.R;
+import com.inacap.echameunamano.activities.MainActivity;
+import com.inacap.echameunamano.adapters.HistorialClienteAdapter;
 import com.inacap.echameunamano.modelos.Historial;
 import com.inacap.echameunamano.providers.HistorialProvider;
 import com.inacap.echameunamano.providers.OperadorProvider;
@@ -61,6 +63,7 @@ public class DetalleHistorialClienteActivity extends AppCompatActivity {
         getHistorial();
     }
 
+
     private void getHistorial() {
         historialProvider.getHistorial(extraId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -77,6 +80,7 @@ public class DetalleHistorialClienteActivity extends AppCompatActivity {
                     }else if(servicio.equals("servicio_neumatico")){
                         tvServicioDetalle.setText("Servicio: Servicio de neumático");
                     }
+
                     //Falta agregar cálculo de tarifa
                     tvValorDetalle.setText("Valor: $10.000");
                     tvOrigenDetalle.setText("Origen: "+historial.getOrigen());
@@ -94,6 +98,7 @@ public class DetalleHistorialClienteActivity extends AppCompatActivity {
                             if(snapshot.exists()){
                                 String nombre = snapshot.child("nombre").getValue().toString();
                                 tvNombreDetalle.setText(nombre.toUpperCase());
+
                                 if(snapshot.hasChild("imagen")){
                                     String imagen = snapshot.child("imagen").getValue().toString();
                                     Picasso.with(DetalleHistorialClienteActivity.this).load(imagen).into(imagenDetalle);

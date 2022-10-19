@@ -8,6 +8,9 @@
     <item android:id="@+id/action_update"
         android:title="Editar perfil"
         app:showAsAction="never"/>
+    <item android:id="@+id/action_dashboard"
+        android:title="Dashboard"
+        app:showAsAction="never"/>
     <item android:id="@+id/operador_action_logout"
         android:title="Cerrar sesión"
         app:showAsAction="never"/>

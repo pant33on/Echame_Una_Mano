@@ -15,9 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EchameUnaMano">
         <activity
+            android:name=".activities.operador.DashboardOperadorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.cliente.DashboardClienteActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.operador.DetalleHistorialOperadorActivity"
             android:exported="false"
-            android:parentActivityName=".activities.operador.HistorialOperadorActivity"/>
+            android:parentActivityName=".activities.operador.HistorialOperadorActivity" />
         <activity
             android:name=".activities.cliente.DetalleHistorialClienteActivity"
             android:exported="false"
