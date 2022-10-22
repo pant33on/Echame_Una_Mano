@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EchameUnaMano">
         <activity
+            android:name=".activities.LoginOperadorActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity
             android:name=".activities.operador.DashboardOperadorActivity"
             android:exported="false" />
         <activity

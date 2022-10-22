@@ -57,13 +57,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Correo electrónico"
-                    android:inputType="text">
-                </com.google.android.material.textfield.TextInputEditText>
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

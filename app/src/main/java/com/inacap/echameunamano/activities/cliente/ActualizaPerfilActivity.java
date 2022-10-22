@@ -55,7 +55,7 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
     private ClienteProvider clienteProvider;
     private AuthProvider authProvider;
     private File imageFile;
-    private String imagen = "";
+    private String imagen = "https://firebasestorage.googleapis.com/v0/b/echame-una-mano-af636.appspot.com/o/man.png?alt=media&token=103510f0-501c-4b18-9e11-43db3a71965b";
     private final int GALLERY_REQUEST = 1;
     private ProgressDialog progressDialog;
     private String nombre;
@@ -191,6 +191,7 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
         cliente.setNombre(nombre);
         cliente.setId(authProvider.getId());
         cliente.setImagen(imagen);
+
         clienteProvider.actualizar(cliente).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

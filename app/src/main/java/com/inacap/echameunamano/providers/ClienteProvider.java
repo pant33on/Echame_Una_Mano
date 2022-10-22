@@ -23,6 +23,7 @@ public class ClienteProvider {
         Map<String, Object> map = new HashMap<>();
         map.put("nombre", cliente.getNombre());
         map.put("email", cliente.getEmail());
+        map.put("tipo", cliente.getTipo());
         return database.child(cliente.getId()).setValue(map);
     }
 

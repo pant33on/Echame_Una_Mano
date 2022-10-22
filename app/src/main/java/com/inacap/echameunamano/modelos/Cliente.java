@@ -5,6 +5,7 @@ public class Cliente {
     String nombre = "";
     String email = "";
     String imagen = "";
+    String tipo = "";
 
     public Cliente(String id, String nombre, String email) {
         this.id = id;
@@ -12,14 +13,29 @@ public class Cliente {
         this.email = email;
     }
 
+    public Cliente(String id, String nombre, String email, String tipo){
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.tipo = tipo;
+    }
+
     public Cliente() {
     }
 
-    public Cliente(String id, String nombre, String email, String imagen) {
+    /*public Cliente(String id, String nombre, String email, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.imagen = imagen;
+    }*/
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getImagen() {

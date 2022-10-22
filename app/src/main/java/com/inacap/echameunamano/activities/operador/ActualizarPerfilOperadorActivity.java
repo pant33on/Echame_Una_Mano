@@ -68,7 +68,7 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
     private OperadorProvider operadorProvider;
     private AuthProvider authProvider;
     private File imageFile;
-    private String imagen = "";
+    private String imagen = "https://firebasestorage.googleapis.com/v0/b/echame-una-mano-af636.appspot.com/o/man.png?alt=media&token=103510f0-501c-4b18-9e11-43db3a71965b";
 
     private final int GALLERY_REQUEST = 1;
     private ProgressDialog progressDialog;
@@ -277,6 +277,7 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
         operador.setMarcaVehiculo(marcaVehiculo);
         operador.setPatente(patente);
         operador.setImagen(imagen);
+
         if(grua.isEmpty()){
             operador.setGrua(servicio_grua);
         }else{
