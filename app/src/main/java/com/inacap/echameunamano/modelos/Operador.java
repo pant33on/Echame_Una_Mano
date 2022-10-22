@@ -1,15 +1,16 @@
 package com.inacap.echameunamano.modelos;
 
 public class Operador {
-    String id;
-    String nombre;
-    String email;
-    String marcaVehiculo;
-    String patente;
-    String grua;
-    String bateria;
-    String neumatico;
+    String id = "";
+    String nombre = "";
+    String email = "";
+    String marcaVehiculo = "";
+    String patente = "";
+    String grua = "";
+    String bateria = "";
+    String neumatico = "";
     String imagen = "";
+    String tipo = "";
 
 
     public Operador() {
@@ -24,6 +25,26 @@ public class Operador {
         this.grua = grua;
         this.bateria = bateria;
         this.neumatico = neumatico;
+    }
+
+    public Operador(String id, String nombre, String email, String marcaVehiculo, String patente, String grua, String bateria, String neumatico, String tipo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.marcaVehiculo = marcaVehiculo;
+        this.patente = patente;
+        this.grua = grua;
+        this.bateria = bateria;
+        this.neumatico = neumatico;
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getImagen() {

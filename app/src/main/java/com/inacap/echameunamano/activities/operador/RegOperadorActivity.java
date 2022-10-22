@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -51,6 +52,8 @@ public class RegOperadorActivity extends AppCompatActivity {
     String bateria ="";
     String neumatico ="";
 
+    private SharedPreferences preferencias;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,10 +76,10 @@ public class RegOperadorActivity extends AppCompatActivity {
 
         //Dialogo loquillo
         dialogo = new SpotsDialog(RegOperadorActivity.this, R.style.Custom);
-
-
         authProvider = new AuthProvider();
         operadorProvider = new OperadorProvider();
+
+        preferencias = getApplicationContext().getSharedPreferences("tipoUsuario", MODE_PRIVATE);
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +119,14 @@ public class RegOperadorActivity extends AppCompatActivity {
         String patente = etPatente.getText().toString();
         String pass = etContraseña.getText().toString();
 
+        //Traer el tipo de usuario para registrarlo
+        String tipo = preferencias.getString("usuario", "");
+
         if(!nombre.isEmpty() && !email.isEmpty() && !pass.isEmpty() && !marca.isEmpty() && !patente.isEmpty()
                 && !grua.isEmpty() && !bateria.isEmpty() && !neumatico.isEmpty()){
             if(pass.length()>=6){
                 dialogo.show();
-                registra(nombre, email, marca, patente, pass, grua, bateria, neumatico);
+                registra(nombre, email, marca, patente, pass, grua, bateria, neumatico, tipo);
             }else{
                 Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
             }
@@ -129,14 +135,14 @@ public class RegOperadorActivity extends AppCompatActivity {
         }
     }
 
-    void registra(String nombre, String email, String marca, String patente, String pass, String grua, String bateria, String neumatico) {
+    void registra(String nombre, String email, String marca, String patente, String pass, String grua, String bateria, String neumatico, String tipo) {
         authProvider.register(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 dialogo.hide();
                 if(task.isSuccessful()){
                     String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    Operador operador = new Operador(id, nombre, email, marca, patente, grua, bateria, neumatico);
+                    Operador operador = new Operador(id, nombre, email, marca, patente, grua, bateria, neumatico, tipo);
                     crear(operador);
                 }
             }

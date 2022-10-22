@@ -7,26 +7,65 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.cliente.ActualizaPerfilActivity">
 
-    <include layout="@layout/action_bar_toolbar" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageViewPerfil"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/icon_user"/>
+        <io.github.florent37.shapeofview.shapes.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="225dp"
+            android:elevation="4dp"
+            app:shape_arc_height="20dp"
+            app:shape_arc_position="bottom"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimario" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageViewPerfil"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center|top"
+                android:layout_marginTop="80dp"
+                android:layout_marginBottom="10dp"
+                app:civ_border_width="5dp"
+                app:civ_border_color="@color/white"
+                android:src="@drawable/man"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/btnVolver"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_volver2"
+                android:layout_gravity="left|top"
+                app:civ_circle_background_color="@color/white"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/tvNombreDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EDITAR PERFIL"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_margin="45dp"/>
+        </io.github.florent37.shapeofview.shapes.ArcView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="10dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"

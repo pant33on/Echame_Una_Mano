@@ -19,8 +19,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.inacap.echameunamano.R;
+import com.inacap.echameunamano.activities.operador.ActualizarPerfilOperadorActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.modelos.Cliente;
+import com.inacap.echameunamano.modelos.Operador;
 import com.inacap.echameunamano.providers.AuthProvider;
 import com.inacap.echameunamano.providers.ClienteProvider;
 import com.inacap.echameunamano.providers.ImagenProvider;
@@ -44,6 +46,8 @@ import android.widget.Toolbar;
 
 import java.io.File;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ActualizaPerfilActivity extends AppCompatActivity {
     private ImageView imageViewPerfil;
     private Button btnActualizaPerfil;
@@ -51,10 +55,11 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
     private ClienteProvider clienteProvider;
     private AuthProvider authProvider;
     private File imageFile;
-    private String urlImagen;
+    private String imagen = "https://firebasestorage.googleapis.com/v0/b/echame-una-mano-af636.appspot.com/o/man.png?alt=media&token=103510f0-501c-4b18-9e11-43db3a71965b";
     private final int GALLERY_REQUEST = 1;
     private ProgressDialog progressDialog;
     private String nombre;
+    private CircleImageView btnVolver;
 
     private ImagenProvider imagenProvider;
 
@@ -62,7 +67,7 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualiza_perfil);
-        MyToolbar.show(this, "Actualizar perfil", true);
+        //MyToolbar.show(this, "Actualizar perfil", true);
 
         imageViewPerfil = findViewById(R.id.imageViewPerfil);
         btnActualizaPerfil = findViewById(R.id.btnActualizaPerfil);
@@ -70,22 +75,26 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
         clienteProvider = new ClienteProvider();
         authProvider = new AuthProvider();
         imagenProvider = new ImagenProvider("cliente_imagenes");
+        btnVolver = findViewById(R.id.btnVolver);
 
         progressDialog = new ProgressDialog(this);
-
         getClienteInfo();
-
         imageViewPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 abrirGaleria();
             }
         });
-
         btnActualizaPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 actualizaPerfil();
+            }
+        });
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -114,7 +123,6 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     String nombre = snapshot.child("nombre").getValue().toString();
-                    String imagen = "";
                     if(snapshot.hasChild("imagen")){
                         imagen = snapshot.child("imagen").getValue().toString();
                         Picasso.with(ActualizaPerfilActivity.this).load(imagen).into(imageViewPerfil);
@@ -132,17 +140,24 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
 
     private void actualizaPerfil() {
         nombre = etNombre.getText().toString();
-        if (!nombre.equals("") && imageFile != null){
-            progressDialog.setMessage("Espere un momento...");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.show();
-            guardarImagen();
+        if (!nombre.equals("")){
+            if(imageFile == null){
+                progressDialog.setMessage("Espere un momento...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
+                guardarDatosSinImagen();
+            }else{
+                progressDialog.setMessage("Espere un momento...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
+                guardarDatosConImagen();
+            }
         }else{
             Toast.makeText(this, "No pueden quedar campos vacíos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void guardarImagen() {
+    private void guardarDatosConImagen() {
         imagenProvider.guardaImagen(ActualizaPerfilActivity.this, imageFile, authProvider.getId()).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -167,6 +182,21 @@ public class ActualizaPerfilActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(ActualizaPerfilActivity.this, "Hubo un problema al subir la imagen", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+    private void guardarDatosSinImagen() {
+        Cliente cliente = new Cliente();
+        cliente.setNombre(nombre);
+        cliente.setId(authProvider.getId());
+        cliente.setImagen(imagen);
+
+        clienteProvider.actualizar(cliente).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                progressDialog.dismiss();
+                Toast.makeText(ActualizaPerfilActivity.this, "Su información se actualizó correctamente", Toast.LENGTH_SHORT).show();
             }
         });
     }

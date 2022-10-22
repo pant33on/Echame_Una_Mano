@@ -12,12 +12,14 @@ import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.activities.cliente.MapaClienteActivity;
 import com.inacap.echameunamano.activities.cliente.TipoServicioActivity;
 import com.inacap.echameunamano.activities.operador.MapaOperadorActivity;
+import com.inacap.echameunamano.adapters.Contador;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button mButtonSoyCliente;
     private Button mButtonSoyOperador;
     private SharedPreferences preferencias;
+    public static Contador contador = Contador.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

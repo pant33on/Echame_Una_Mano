@@ -343,7 +343,7 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
             if(!estaCerca){
                 if(origenLatLng != null && latLngActual != null){
                     double distancia = getDistanciaEntre(origenLatLng, latLngActual); //retorna valor en metros =)
-                    if(distancia <= 200){
+                    if(distancia <= 400){
                         //btnIniciarViaje.setEnabled(true);
                         estaCerca = true;
                         Toast.makeText(this, "Estás llegando a la ubicación del cliente", Toast.LENGTH_LONG).show();

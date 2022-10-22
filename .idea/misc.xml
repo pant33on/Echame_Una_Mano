@@ -26,31 +26,38 @@
         <entry key="..\:/Proyectos/EchameunaMano/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.117" />
         <entry key="..\:/Proyectos/EchameunaMano/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1565" />
         <entry key="..\:/Proyectos/EchameunaMano/app/src/main/res/mipmap-anydpi-v26/ic_super_logo.xml" value="0.1" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/drawable/ic_servicio.xml" value="0.2135" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/action_bar_toolbar.xml" value="0.3046875" />
-        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_actualiza_perfil.xml" value="0.43169398907103823" />
-        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_actualizar_perfil_operador.xml" value="0.441340782122905" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_actualiza_perfil.xml" value="0.45703125" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_actualizar_perfil_operador.xml" value="0.45703125" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_asdf.xml" value="0.3046875" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_auth.xml" value="0.3046875" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_calificacion_al_cliente.xml" value="0.2916666666666667" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_calificacion_al_operador.xml" value="0.2916666666666667" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_dashboard_cliente.xml" value="0.45703125" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_dashboard_operador.xml" value="0.45703125" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_det_request.xml" value="0.3046875" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_deta_req.xml" value="0.3046875" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_detalle_historial_cliente.xml" value="0.45703125" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_detalle_historial_operador.xml" value="0.45703125" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_detalle_request.xml" value="0.3046875" />
-        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_detalle_solicitud.xml" value="0.2611111111111111" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_detalle_solicitud.xml" value="0.45703125" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_dreq.xml" value="0.3046875" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_ds.xml" value="0.3046875" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_historial_cliente.xml" value="0.45703125" />
-        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_login.xml" value="0.3046875" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_historial_operador.xml" value="0.45703125" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_login.xml" value="0.45703125" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_login_operador.xml" value="0.45703125" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_main.xml" value="0.3046875" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_mapa_cliente.xml" value="0.3046875" />
-        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_mapa_cliente_transaccion.xml" value="0.3046875" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_mapa_cliente_transaccion.xml" value="0.45703125" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_mapa_operador.xml" value="0.3046875" />
-        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_mapa_operador_transaccion.xml" value="0.3046875" />
-        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_notificacion.xml" value="0.3046875" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_mapa_operador_transaccion.xml" value="0.45703125" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_notificacion.xml" value="0.45703125" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_otra.xml" value="0.1" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_reg_operador.xml" value="0.44656488549618323" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_register.xml" value="0.44656488549618323" />
-        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_solicitud_operador.xml" value="0.3" />
+        <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_solicitud_operador.xml" value="0.45703125" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_tipo_servicio.xml" value="0.3046875" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_uactivity.xml" value="0.3046875" />
         <entry key="..\:/Users/f_bru/OneDrive/Documentos/GitHub/Echame_Una_Mano/app/src/main/res/layout/activity_uno.xml" value="0.18802083333333333" />

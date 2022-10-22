@@ -47,11 +47,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.activities.MainActivity;
 import com.inacap.echameunamano.activities.cliente.ActualizaPerfilActivity;
+import com.inacap.echameunamano.activities.cliente.DashboardClienteActivity;
 import com.inacap.echameunamano.activities.cliente.HistorialClienteActivity;
 import com.inacap.echameunamano.activities.cliente.MapaClienteActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.providers.AuthProvider;
 import com.inacap.echameunamano.providers.GeofireProvider;
+import com.inacap.echameunamano.providers.HistorialProvider;
 import com.inacap.echameunamano.providers.TokenProvider;
 
 public class MapaOperadorActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -72,6 +74,9 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
+
+    private String idLoco;
+    private HistorialProvider historialProvider;
     //endregion
 
     private LocationCallback ubicacionCallback = new LocationCallback() {
@@ -108,12 +113,12 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_operador);
         MyToolbar.show(this, "Operador", false);
+        historialProvider = new HistorialProvider();
         authProvider = new AuthProvider();
         mapaFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapaFragment.getMapAsync(this);
@@ -135,6 +140,12 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         });
         generaToken();
         estaElOperadorOcupado();
+        llenaDashboard();
+    }
+
+    public void llenaDashboard(){
+        idLoco = authProvider.getId();
+        historialProvider.getCantServiciosOperador(idLoco);
     }
 
     private void estaElOperadorOcupado() {
@@ -312,8 +323,12 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
             startActivity(intent);
         }
         if(item.getItemId() == R.id.action_historial){
-            //Intent intent = new Intent(MapaOperadorActivity.this, HistorialOperadorActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(MapaOperadorActivity.this, HistorialOperadorActivity.class);
+            startActivity(intent);
+        }
+        if(item.getItemId() == R.id.action_dashboard){
+            Intent intent = new Intent(MapaOperadorActivity.this, DashboardOperadorActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -333,4 +348,5 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
             Log.d("TAG_", E.getMessage());
         }
     }
+
 }

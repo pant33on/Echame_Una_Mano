@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.operador.DashboardOperadorActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <io.github.florent37.shapeofview.shapes.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:elevation="4dp"
+            app:shape_arc_height="20dp"
+            app:shape_arc_position="bottom"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimarioDark"/>
+
+            <TextView
+                android:id="@+id/tvNombreDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Humberto Vélez"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_margin="35dp"/>
+        </io.github.florent37.shapeofview.shapes.ArcView>
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:src="@drawable/gru1"
+            android:layout_marginTop="105dp"/>
+        <TextView
+            android:id="@+id/tvCantGrua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Servicios de grúa: 65"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="17sp"/>
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:src="@drawable/bat1"
+            android:layout_marginTop="25dp"/>
+        <TextView
+            android:id="@+id/tvCantBateria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Servicios de batería: 25"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="17sp"/>
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/neu1"
+            android:layout_marginTop="25dp"/>
+        <TextView
+            android:id="@+id/tvCantNeumatico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Servicios de neumático: 40"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="17sp"/>
+    </LinearLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imagenDetalle"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/man"
+        android:layout_gravity="center|top"
+        app:civ_border_width="5dp"
+        app:civ_border_color="@color/white"
+        android:layout_marginTop="75dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/btnVolver"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_volver2"
+        android:layout_gravity="left|top"
+        app:civ_circle_background_color="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

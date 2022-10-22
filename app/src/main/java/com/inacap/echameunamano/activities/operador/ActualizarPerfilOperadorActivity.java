@@ -39,6 +39,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
 
     private ImageView imageViewPerfil;
@@ -60,23 +62,24 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
     private String servicio_bateria ="";
     private String servicio_neumatico ="";
 
-
-    String[] item = {"Activo","Inactivo"};
-    ArrayAdapter<String> adapterItem;
+    private String[] item = {"Activo","Inactivo"};
+    private ArrayAdapter<String> adapterItem;
 
     private OperadorProvider operadorProvider;
     private AuthProvider authProvider;
     private File imageFile;
-    private String urlImagen;
+    private String imagen = "https://firebasestorage.googleapis.com/v0/b/echame-una-mano-af636.appspot.com/o/man.png?alt=media&token=103510f0-501c-4b18-9e11-43db3a71965b";
+
     private final int GALLERY_REQUEST = 1;
     private ProgressDialog progressDialog;
     private ImagenProvider imagenProvider;
+    private CircleImageView btnVolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar_perfil_operador);
-        MyToolbar.show(this, "Actualizar perfil", true);
+        //MyToolbar.show(this, "Actualizar perfil", true);
 
         imageViewPerfil = findViewById(R.id.imageViewPerfil);
         btnActualizaPerfil = findViewById(R.id.btnActualizaPerfil);
@@ -86,16 +89,14 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
         acGrua = findViewById(R.id.acGrua);
         acBateria = findViewById(R.id.acBateria);
         acNeumatico = findViewById(R.id.acNeumatico);
+        btnVolver = findViewById(R.id.btnVolver);
 
         //Método autocomplete (select)
         adapterItem = new ArrayAdapter<String>(this,R.layout.lista_items,item);
-
         operadorProvider = new OperadorProvider();
         authProvider = new AuthProvider();
         imagenProvider = new ImagenProvider("operador_imagenes");
-
         progressDialog = new ProgressDialog(this);
-
         getOperadorInfo();
 
         imageViewPerfil.setOnClickListener(new View.OnClickListener() {
@@ -104,11 +105,16 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
                 abrirGaleria();
             }
         });
-
         btnActualizaPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 actualizaPerfil();
+            }
+        });
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -150,6 +156,10 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
             try {
                 imageFile = FileUtil.from(this, data.getData());
                 imageViewPerfil.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+                //
+                //
+                //
+                //imageFile = new File(imagen);
             }catch (Exception e){
                 Log.d("ERROR", "Mensaje: "+e.getMessage());
             }
@@ -167,7 +177,7 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
                     servicio_grua = snapshot.child("servicio_grua").getValue().toString();
                     servicio_bateria = snapshot.child("servicio_bateria").getValue().toString();
                     servicio_neumatico = snapshot.child("servicio_neumatico").getValue().toString();
-                    String imagen = "";
+
                     if(snapshot.hasChild("imagen")){
                         imagen = snapshot.child("imagen").getValue().toString();
                         Picasso.with(ActualizarPerfilOperadorActivity.this).load(imagen).into(imageViewPerfil);
@@ -195,17 +205,24 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
         marcaVehiculo = etMarcaVehiculo.getText().toString();
         patente = etPatente.getText().toString();
 
-        if (!nombre.equals("") && !marcaVehiculo.equals("") && !patente.equals("") && imageFile != null){
-            progressDialog.setMessage("Espere un momento...");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.show();
-            guardarImagen();
+        if (!nombre.equals("") && !marcaVehiculo.equals("") && !patente.equals("")){
+            if(imageFile == null){
+                progressDialog.setMessage("Espere un momento...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
+                guardarDatosSinImagen();
+            }else{
+                progressDialog.setMessage("Espere un momento...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
+                guardarDatosConImagen();
+            }
         }else{
             Toast.makeText(this, "No pueden quedar campos vacíos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void guardarImagen() {
+    private void guardarDatosConImagen() {
         imagenProvider.guardaImagen(ActualizarPerfilOperadorActivity.this, imageFile, authProvider.getId()).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -254,5 +271,35 @@ public class ActualizarPerfilOperadorActivity extends AppCompatActivity {
         });
     }
 
+    private void guardarDatosSinImagen() {
+        Operador operador = new Operador();
+        operador.setNombre(nombre);
+        operador.setMarcaVehiculo(marcaVehiculo);
+        operador.setPatente(patente);
+        operador.setImagen(imagen);
 
+        if(grua.isEmpty()){
+            operador.setGrua(servicio_grua);
+        }else{
+            operador.setGrua(grua);
+        }
+        if(bateria.isEmpty()){
+            operador.setBateria(servicio_bateria);
+        }else{
+            operador.setBateria(bateria);
+        }
+        if(neumatico.isEmpty()){
+            operador.setNeumatico(servicio_neumatico);
+        }else{
+            operador.setNeumatico(neumatico);
+        }
+        operador.setId(authProvider.getId());
+        operadorProvider.actualizar(operador).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                progressDialog.dismiss();
+                Toast.makeText(ActualizarPerfilOperadorActivity.this, "Su información se actualizó correctamente", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -7,26 +7,44 @@
     tools:context=".activities.LoginActivity"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/action_bar_toolbar"></include>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/logoin3"
-            android:layout_gravity="center"
-            android:layout_marginTop="100dp"
-            android:layout_marginBottom="20dp"/>
+        <io.github.florent37.shapeofview.shapes.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:elevation="4dp"
+            app:shape_arc_height="20dp"
+            app:shape_arc_position="bottom"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimario"/>
+            <TextView
+                android:id="@+id/tvNombreDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ÉCHAME UNA MANO"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_margin="65dp"/>
+
+        </io.github.florent37.shapeofview.shapes.ArcView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="10dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -39,13 +57,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Correo electrónico"
-                    android:inputType="text">
-                </com.google.android.material.textfield.TextInputEditText>
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -53,7 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="10dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -66,6 +85,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etContraseña"
                     android:layout_width="match_parent"
@@ -93,8 +113,22 @@
                 android:textColor="@color/white"
                 />
         </LinearLayout>
-
-
     </LinearLayout>
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/logoin"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="90dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/btnVolver"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_volver2"
+        android:layout_gravity="left|top"
+        app:civ_circle_background_color="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

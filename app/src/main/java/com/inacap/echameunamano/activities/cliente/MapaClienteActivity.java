@@ -58,6 +58,7 @@ import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.modelos.Token;
 import com.inacap.echameunamano.providers.AuthProvider;
 import com.inacap.echameunamano.providers.GeofireProvider;
+import com.inacap.echameunamano.providers.HistorialProvider;
 import com.inacap.echameunamano.providers.TokenProvider;
 
 import java.util.ArrayList;
@@ -92,6 +93,9 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
+
+    private String idLoco;
+    private HistorialProvider historialProvider;
     //endregion
 
     private LocationCallback ubicacionCallback = new LocationCallback() {
@@ -137,10 +141,13 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
         setContentView(R.layout.activity_mapa_cliente);
         MyToolbar.show(this, "Cliente", false);
         authProvider = new AuthProvider();
+        historialProvider = new HistorialProvider();
+
         mapaFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapaFragment.getMapAsync(this);
         ubicacionFused = LocationServices.getFusedLocationProviderClient(this);
         geofireProvider = new GeofireProvider("Operadores_activos");
+
 
         btnBuscarServicio = findViewById(R.id.btnBuscarServicio);
         tokenProvider = new TokenProvider();
@@ -160,6 +167,7 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
             }
         });
         generaToken();
+        llenaDashboard();
     }
 
     //AÑADIR TIPO DE SERVICIO SELECCIONADO POR USUARIO
@@ -488,10 +496,19 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
             Intent intent = new Intent(MapaClienteActivity.this, HistorialClienteActivity.class);
             startActivity(intent);
         }
+        if(item.getItemId() == R.id.action_dashboard){
+            Intent intent = new Intent(MapaClienteActivity.this, DashboardClienteActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
     void generaToken(){
         tokenProvider.creaToken(authProvider.getId());
+    }
+
+    public void llenaDashboard(){
+        idLoco = authProvider.getId();
+        historialProvider.getCantServicios(idLoco);
     }
 }

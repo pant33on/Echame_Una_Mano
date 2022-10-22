@@ -24,6 +24,7 @@ public class OperadorProvider {
         map.put("servicio_grua", operador.getGrua());
         map.put("servicio_bateria", operador.getBateria());
         map.put("servicio_neumatico", operador.getNeumatico());
+        map.put("tipo", operador.getTipo());
         return database.child(operador.getId()).setValue(map);
     }
 

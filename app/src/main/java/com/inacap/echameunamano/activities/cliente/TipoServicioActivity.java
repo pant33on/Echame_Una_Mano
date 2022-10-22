@@ -10,10 +10,12 @@ import com.inacap.echameunamano.activities.MainActivity;
 import com.inacap.echameunamano.activities.operador.MapaOperadorActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.providers.AuthProvider;
+import com.inacap.echameunamano.providers.HistorialProvider;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,8 @@ public class TipoServicioActivity extends AppCompatActivity {
     private SharedPreferences preferencias;
 
     private AuthProvider authProvider;
+    private String idLoco;
+    private HistorialProvider historialProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class TipoServicioActivity extends AppCompatActivity {
         btnBateria = findViewById(R.id.btnBateria);
         btnNeumatico = findViewById(R.id.btnNeumatico);
         authProvider = new AuthProvider();
+        historialProvider = new HistorialProvider();
 
         preferencias = getApplicationContext().getSharedPreferences("tipoServicio", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferencias.edit();
@@ -67,6 +72,7 @@ public class TipoServicioActivity extends AppCompatActivity {
                 irActivityNeumatico();
             }
         });
+    llenaDashboard();
     }
 
     private void irActivityGrua() {
@@ -123,7 +129,20 @@ public class TipoServicioActivity extends AppCompatActivity {
             Intent intent = new Intent(TipoServicioActivity.this, ActualizaPerfilActivity.class);
             startActivity(intent);
         }
+        if(item.getItemId() == R.id.action_historial){
+            Intent intent = new Intent(TipoServicioActivity.this, HistorialClienteActivity.class);
+            startActivity(intent);
+        }
+        if(item.getItemId() == R.id.action_dashboard){
+            Intent intent = new Intent(TipoServicioActivity.this, DashboardClienteActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void llenaDashboard(){
+        idLoco = authProvider.getId();
+        historialProvider.getCantServicios(idLoco);
     }
 
 }
