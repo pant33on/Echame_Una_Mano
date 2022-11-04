@@ -10,13 +10,16 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.activities.cliente.MapaClienteActivity;
+import com.inacap.echameunamano.activities.cliente.TipoServicioActivity;
 import com.inacap.echameunamano.activities.operador.MapaOperadorActivity;
+import com.inacap.echameunamano.adapters.Contador;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button mButtonSoyCliente;
-    Button mButtonSoyOperador;
-    SharedPreferences preferencias;
+    private Button mButtonSoyCliente;
+    private Button mButtonSoyOperador;
+    private SharedPreferences preferencias;
+    public static Contador contador = Contador.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +58,13 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             String usuario = preferencias.getString("usuario","");
-            if(usuario.equals("cliente")){
-                Intent intent = new Intent(MainActivity.this, MapaClienteActivity.class);
+            if(usuario.equals("operador")){
+                Intent intent = new Intent(MainActivity.this, MapaOperadorActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-            }else{
-                Intent intent = new Intent(MainActivity.this, MapaOperadorActivity.class);
+            }
+            else{
+                Intent intent = new Intent(MainActivity.this, TipoServicioActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }

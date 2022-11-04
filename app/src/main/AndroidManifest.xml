@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.inacap.echameunamano">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +14,83 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EchameUnaMano">
+        <activity
+            android:name=".activities.LoginOperadorActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity
+            android:name=".activities.operador.DashboardOperadorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.cliente.DashboardClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.operador.DetalleHistorialOperadorActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.operador.HistorialOperadorActivity" />
+        <activity
+            android:name=".activities.cliente.DetalleHistorialClienteActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.cliente.HistorialClienteActivity" />
+        <activity
+            android:name=".activities.operador.HistorialOperadorActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.operador.MapaOperadorActivity" />
+        <activity
+            android:name=".activities.cliente.HistorialClienteActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.cliente.MapaClienteActivity" />
+        <activity
+            android:name=".activities.operador.ActualizarPerfilOperadorActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.operador.MapaOperadorActivity" />
+        <activity
+            android:name=".activities.cliente.ActualizaPerfilActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.cliente.MapaClienteActivity" />
+        <activity
+            android:name=".activities.operador.NotificacionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.cliente.CalificacionAlOperadorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.operador.CalificacionAlClienteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.operador.MapaOperadorTransaccionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.cliente.MapaClienteTransaccionActivity"
+            android:exported="false" />
+
+        <receiver
+            android:name=".receivers.AceptarReceiver"
+            android:enabled="true" />
+        <receiver
+            android:name=".receivers.CancelarReceiver"
+            android:enabled="true" />
+
+        <activity
+            android:name=".activities.cliente.TipoServicioActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.AuthActivity" />
+
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".activities.cliente.SolicitudOperadorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.cliente.DetalleSolicitudActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.cliente.MapaClienteActivity" />
         <activity
             android:name=".activities.operador.MapaOperadorActivity"
             android:exported="false" />
@@ -45,7 +123,9 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/google_maps_key"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

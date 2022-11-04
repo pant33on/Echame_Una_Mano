@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorPrimario"
+    tools:context=".activities.operador.MapaOperadorTransaccionActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="150dp"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnIniciarViaje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inicar viaje"
+        android:background="@drawable/boton_redondeado"
+        android:backgroundTint="@color/colorAzulDark"
+        android:textColor="@color/white"
+        android:layout_margin="30dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnFinalizarViaje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Finalizar viaje"
+        android:background="@drawable/boton_redondeado"
+        android:backgroundTint="@color/colorPrimarioDark"
+        android:textColor="@color/white"
+        android:layout_margin="30dp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <io.github.florent37.shapeofview.shapes.BubbleView
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        app:shape_bubble_arrowHeight="15dp"
+        app:shape_bubble_arrowWidth="15dp"
+        app:shape_bubble_arrowPosition="top"
+        app:shape_bubble_borderRadius="20dp"
+        android:layout_gravity="bottom">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimario"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageViewTransaccion"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:civ_border_width="3dp"
+                android:layout_marginLeft="7dp"
+                app:civ_border_color="@color/white"
+                android:layout_gravity="center"
+                android:src="@drawable/man"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="7dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:id="@+id/tvOrigenTransaccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="origen"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:textSize="16sp"
+                    android:maxLines="2"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tvDestinoTransaccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="destino"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:textSize="16sp"
+                    android:maxLines="2"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tvNombreClienteTransaccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="nombre"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tvEmailClienteTransaccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </io.github.florent37.shapeofview.shapes.BubbleView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

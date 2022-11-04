@@ -21,6 +21,27 @@ public class OperadorProvider {
         map.put("email", operador.getEmail());
         map.put("marcaVehiculo", operador.getMarcaVehiculo());
         map.put("patente", operador.getPatente());
+        map.put("servicio_grua", operador.getGrua());
+        map.put("servicio_bateria", operador.getBateria());
+        map.put("servicio_neumatico", operador.getNeumatico());
+        map.put("tipo", operador.getTipo());
         return database.child(operador.getId()).setValue(map);
+    }
+
+    public Task<Void> actualizar(Operador operador){
+        Map<String, Object> map = new HashMap<>();
+        map.put("nombre", operador.getNombre());
+        map.put("marcaVehiculo", operador.getMarcaVehiculo());
+        map.put("patente", operador.getPatente());
+        map.put("servicio_grua", operador.getGrua());
+        map.put("servicio_bateria", operador.getBateria());
+        map.put("servicio_neumatico", operador.getNeumatico());
+        map.put("imagen", operador.getImagen());
+
+        return database.child(operador.getId()).updateChildren(map);
+    }
+
+    public DatabaseReference getOperador(String idOperador){
+        return database.child(idOperador);
     }
 }

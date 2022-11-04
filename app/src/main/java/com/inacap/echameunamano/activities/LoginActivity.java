@@ -2,7 +2,6 @@ package com.inacap.echameunamano.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,48 +9,65 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.activities.cliente.MapaClienteActivity;
 import com.inacap.echameunamano.activities.cliente.RegisterActivity;
+import com.inacap.echameunamano.activities.cliente.TipoServicioActivity;
 import com.inacap.echameunamano.activities.operador.MapaOperadorActivity;
 import com.inacap.echameunamano.activities.operador.RegOperadorActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
+import com.inacap.echameunamano.providers.AuthProvider;
+import com.inacap.echameunamano.providers.ClienteProvider;
+import com.inacap.echameunamano.providers.OperadorProvider;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextInputEditText etEmail;
-    TextInputEditText etContraseña;
-    Button btnIngresar;
-
-    FirebaseAuth auth;
-    DatabaseReference dataBase;
-    AlertDialog dialogo; //Investigar para poner el progress dialog bar
-
-    SharedPreferences preferencias;
+    private TextInputEditText etEmail;
+    private TextInputEditText etContraseña;
+    private Button btnIngresar;
+    private CircleImageView btnVolver;
+    private FirebaseAuth auth;
+    private AlertDialog dialogo;
+    private SharedPreferences preferencias;
+    private AuthProvider authProvider;
+    private ClienteProvider clienteProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        MyToolbar.show(this, "Login de usuario", true);
+        //MyToolbar.show(this, "Login de usuario", true);
+        authProvider = new AuthProvider();
+        clienteProvider = new ClienteProvider();
 
         etEmail = findViewById(R.id.etEmail);
         etContraseña = findViewById(R.id.etContraseña);
         btnIngresar = findViewById(R.id.btnIngresar);
+        btnVolver = findViewById(R.id.btnVolver);
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
-        //dialogo = new SpotsDialog...
+        //Dialogo loquillo
+        dialogo = new SpotsDialog(LoginActivity.this, R.style.Custom);
         preferencias = getApplicationContext().getSharedPreferences("tipoUsuario", MODE_PRIVATE);
-
         auth = FirebaseAuth.getInstance();
-        dataBase = FirebaseDatabase.getInstance().getReference();
 
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,30 +82,42 @@ public class LoginActivity extends AppCompatActivity {
         String pass = etContraseña.getText().toString();
 
         if(!email.isEmpty() && !pass.isEmpty()){
-            if(pass.length() >= 6){
-                auth.signInWithEmailAndPassword(email, pass)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
-                                    String usuario = preferencias.getString("usuario","");
-                                    if(usuario.equals("cliente")){
-                                        Intent intent = new Intent(LoginActivity.this, MapaClienteActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                    }else{
-                                        Intent intent = new Intent(LoginActivity.this, MapaOperadorActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                    }
-                                }else{
-                                    Toast.makeText(LoginActivity.this, "Correo electrónico o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+            dialogo.show();
+            auth.signInWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                String usuario = preferencias.getString("usuario","");
+                                //AQUÍ HACER CONSULTA EN BDD SI EL TIPO CORRESPONDE CON EL SHARED PREFERENCES
+                                if(authProvider.existeSesion()){
+                                    clienteProvider.getCliente(authProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(snapshot.exists()){
+                                                String tipo = snapshot.child("tipo").getValue().toString();
+                                                if(tipo.equals(usuario)){
+                                                    Intent intent = new Intent(LoginActivity.this, TipoServicioActivity.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }else{
+                                                authProvider.logout();
+                                                Toast.makeText(LoginActivity.this, "TIPO DE USUARIO INCORRECTO, VUELVA A LA PANTALLA DE SELECCIÓN", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                        }
+                                    });
                                 }
+                            }else{
+                                Toast.makeText(LoginActivity.this, "Correo electrónico o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                             }
-                        });
-            }else{
-                Toast.makeText(this, "La contraseña debe tener más de 6 caracteres", Toast.LENGTH_SHORT).show();
-            }
+                            dialogo.hide();
+                        }
+                    });
         }else{
             Toast.makeText(this, "La contraseña y correo electrónico son obligatorios", Toast.LENGTH_SHORT).show();
         }

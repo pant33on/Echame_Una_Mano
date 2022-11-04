@@ -1,21 +1,82 @@
 package com.inacap.echameunamano.modelos;
 
 public class Operador {
-    String id;
-    String nombre;
-    String email;
-    String marcaVehiculo;
-    String patente;
+    String id = "";
+    String nombre = "";
+    String email = "";
+    String marcaVehiculo = "";
+    String patente = "";
+    String grua = "";
+    String bateria = "";
+    String neumatico = "";
+    String imagen = "";
+    String tipo = "";
+
 
     public Operador() {
     }
 
-    public Operador(String id, String nombre, String email, String marcaVehiculo, String patente) {
+    public Operador(String id, String nombre, String email, String marcaVehiculo, String patente, String grua, String bateria, String neumatico) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.marcaVehiculo = marcaVehiculo;
         this.patente = patente;
+        this.grua = grua;
+        this.bateria = bateria;
+        this.neumatico = neumatico;
+    }
+
+    public Operador(String id, String nombre, String email, String marcaVehiculo, String patente, String grua, String bateria, String neumatico, String tipo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.marcaVehiculo = marcaVehiculo;
+        this.patente = patente;
+        this.grua = grua;
+        this.bateria = bateria;
+        this.neumatico = neumatico;
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getGrua() {
+        return grua;
+    }
+
+    public void setGrua(String grua) {
+        this.grua = grua;
+    }
+
+    public String getBateria() {
+        return bateria;
+    }
+
+    public void setBateria(String bateria) {
+        this.bateria = bateria;
+    }
+
+    public String getNeumatico() {
+        return neumatico;
+    }
+
+    public void setNeumatico(String neumatico) {
+        this.neumatico = neumatico;
     }
 
     public String getId() {
