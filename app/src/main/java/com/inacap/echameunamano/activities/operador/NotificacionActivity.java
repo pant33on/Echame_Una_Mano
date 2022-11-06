@@ -33,6 +33,8 @@ public class NotificacionActivity extends AppCompatActivity {
     private TextView tvNotificacionOrigen;
     private TextView tvNotificacionTiempo;
     private TextView tvNotificacionDistancia;
+    private TextView tvNotificacionValor;
+
     private Button btnNotificacionAceptar;
     private Button btnNotificacionCancelar;
     private TextView tvContador;
@@ -45,6 +47,7 @@ public class NotificacionActivity extends AppCompatActivity {
     private  String extraDestino;
     private  String extraTiempo;
     private  String extraDistancia;
+    private  String extraValor;
     private MediaPlayer mediaPlayer;
     private ValueEventListener listener;
 
@@ -82,6 +85,8 @@ public class NotificacionActivity extends AppCompatActivity {
         tvNotificacionDestino = findViewById(R.id.tvNotificacionDestino);
         tvNotificacionTiempo = findViewById(R.id.tvNotificacionTiempo);
         tvNotificacionDistancia = findViewById(R.id.tvNotificacionDistancia);
+        tvNotificacionValor = findViewById(R.id.tvNotificacionValor);
+
         btnNotificacionAceptar = findViewById(R.id.btnNotificacionAceptar);
         btnNotificacionCancelar = findViewById(R.id.btnNotificacionCancelar);
         tvContador = findViewById(R.id.tvContador);
@@ -91,11 +96,13 @@ public class NotificacionActivity extends AppCompatActivity {
         extraDestino = getIntent().getStringExtra("destino");
         extraTiempo = getIntent().getStringExtra("tiempo");
         extraDistancia = getIntent().getStringExtra("distancia");
+        extraValor = getIntent().getStringExtra("valor");
 
         tvNotificacionOrigen.setText(extraOrigen);
         tvNotificacionDestino.setText(extraDestino);
         tvNotificacionTiempo.setText(extraTiempo);
         tvNotificacionDistancia.setText(extraDistancia);
+        tvNotificacionValor.setText("$ "+extraValor);
 
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
@@ -145,9 +152,8 @@ public class NotificacionActivity extends AppCompatActivity {
         manager.cancel(2);
 
         Intent intent = new Intent(NotificacionActivity.this, MapaOperadorTransaccionActivity.class);
-        //REVISAR FLAGS REVISAR FLAGS REVISAR FLAGS
-        //REVISAR FLAGS REVISAR FLAGS REVISAR FLAGS
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        //
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setAction(Intent.ACTION_RUN);
         intent.putExtra("idCliente", extraIdCliente);
         startActivity(intent);
@@ -158,17 +164,16 @@ public class NotificacionActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){
-                    Toast.makeText(NotificacionActivity.this, "El cliente canceló la búsqueda", Toast.LENGTH_LONG).show();
+                    Toast.makeText(NotificacionActivity.this, "El cliente canceló la búsqueda", Toast.LENGTH_SHORT).show();
+                    clienteTransaccionProvider.getClienteTransaccion(extraIdCliente).removeEventListener(listener);
                     if(handler != null) handler.removeCallbacks(runnable);
                     Intent intent = new Intent(NotificacionActivity.this, MapaOperadorActivity.class);
                     startActivity(intent);
                     finish();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -215,10 +220,14 @@ public class NotificacionActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Debe aceptar o cancelar el viaje", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onDestroy() {
         try {
-            super.onDestroy();
             if(handler != null) handler.removeCallbacks(runnable);
             if(mediaPlayer != null){
                 if(mediaPlayer.isPlaying()){
@@ -228,8 +237,9 @@ public class NotificacionActivity extends AppCompatActivity {
             if(listener != null){
                 clienteTransaccionProvider.getClienteTransaccion(extraIdCliente).removeEventListener(listener);
             }
+            super.onDestroy();
         }catch (Exception e){
             Log.d("TAG_", e.getMessage());
         }
-    }*/
+    }
 }

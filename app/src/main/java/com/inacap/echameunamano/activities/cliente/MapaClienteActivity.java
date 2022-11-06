@@ -148,7 +148,6 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
         ubicacionFused = LocationServices.getFusedLocationProviderClient(this);
         geofireProvider = new GeofireProvider("Operadores_activos");
 
-
         btnBuscarServicio = findViewById(R.id.btnBuscarServicio);
         tokenProvider = new TokenProvider();
 
@@ -168,6 +167,7 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
         });
         generaToken();
         llenaDashboard();
+        //revisaPermisos();
     }
 
     //AÑADIR TIPO DE SERVICIO SELECCIONADO POR USUARIO
@@ -185,6 +185,7 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
 
                 try {
                     startActivity(intent);
+                    finish();
                 }catch (Error E){
                     Log.d("TAG_", "error : "+ E.getMessage().toString());
                 }
@@ -302,16 +303,13 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
         mapa.setMyLocationEnabled(true);
         mapa.setOnCameraIdleListener(camaraListener);
 
-        //ubicacionRequest = new LocationRequest();
-        ubicacionRequest = LocationRequest.create();
+        //ubicacionRequest = LocationRequest.create();
+        ubicacionRequest = new LocationRequest();
         ubicacionRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        ubicacionDeInicio();
-        //
         ubicacionRequest.setInterval(5000);
         ubicacionRequest.setFastestInterval(1000);
         ubicacionRequest.setSmallestDisplacement(5);
-
-
+        ubicacionDeInicio();
     }
 
     @Override

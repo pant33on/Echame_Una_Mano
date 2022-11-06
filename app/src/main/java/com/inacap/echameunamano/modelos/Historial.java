@@ -18,13 +18,14 @@ public class Historial {
     double calificacionCliente;
     double calificacionOperador;
     Long fecha;
+    double valor;
 
     public Historial() {
     }
 
     public Historial(String idHistorial, String idCliente, String idOperador, String tipoServicio,
                      String destino, String origen, String tiempo, String km, String estado, double origenLat,
-                     double origenLng, double destinoLat, double destinoLng) {
+                     double origenLng, double destinoLat, double destinoLng, double valor) {
         this.idHistorial = idHistorial;
         this.idCliente = idCliente;
         this.idOperador = idOperador;
@@ -38,6 +39,15 @@ public class Historial {
         this.origenLng = origenLng;
         this.destinoLat = destinoLat;
         this.destinoLng = destinoLng;
+        this.valor = valor;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public Long getFecha() {

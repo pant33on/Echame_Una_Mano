@@ -23,8 +23,8 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/animacionNotificacion"
-                    android:layout_width="230dp"
-                    android:layout_height="230dp"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -37,14 +37,20 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Desde"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:textColor="@color/black"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="5dp"/>
 
             <TextView
                 android:id="@+id/tvNotificacionOrigen"
@@ -52,14 +58,14 @@
                 android:layout_height="wrap_content"
                 android:text="Avenida Santa Rosa 2533"
                 android:textAlignment="center"
-                android:textSize="19sp"/>
+                android:textSize="17sp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hasta"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"/>
 
@@ -69,7 +75,15 @@
                 android:layout_height="wrap_content"
                 android:text="Mall Costanera Center"
                 android:textAlignment="center"
-                android:textSize="19sp" />
+                android:textSize="17sp"
+                android:layout_marginBottom="5dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -85,15 +99,15 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:src="@drawable/ic_tiempo"
                         android:layout_marginTop="10dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tiempo de llegada"
+                        android:text="Tiempo"
                         android:textSize="16sp"
                         android:textColor="@color/black"/>
 
@@ -112,8 +126,8 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:src="@drawable/ic_mapa"
                         android:layout_marginTop="10dp"/>
 
@@ -132,6 +146,56 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Valor servicio: "
+                        android:textSize="18sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvNotificacionValor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$ 30.000"
+                        android:textSize="22sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
             <TextView
                 android:id="@+id/tvContador"
                 android:layout_width="match_parent"
@@ -139,7 +203,7 @@
                 android:text="60"
                 android:textAlignment="center"
                 android:textSize="42sp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="25dp"
                 android:textStyle="bold"/>
         </LinearLayout>

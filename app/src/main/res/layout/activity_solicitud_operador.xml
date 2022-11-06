@@ -48,6 +48,18 @@
                 android:backgroundTint="@color/colorPrimarioDark"
                 android:textColor="@color/white"
                 android:layout_margin="20dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnVolver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Volver"
+                android:background="@drawable/boton_redondeado"
+                android:backgroundTint="@color/colorAzul"
+                android:textColor="@color/white"
+                android:layout_margin="20dp"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
 

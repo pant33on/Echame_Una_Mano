@@ -76,17 +76,20 @@ public class RegisterActivity extends AppCompatActivity {
         String tipo = preferencias.getString("usuario", "");
 
         if(!nombre.isEmpty() && !email.isEmpty() && !pass.isEmpty()){
-            if(pass.length()>=6){
-                dialogo.show();
-                registra(nombre, email, pass, tipo);
+            if(esUnNombreValido(nombre)){
+                if(esUnMailValido(email)){
+                    if(esUnPassValido(pass)){
+                        dialogo.show();
+                        registra(nombre, email, pass, tipo);
+                    }else{
+                        etContraseña.setError("Ingrese una contraseña válida");
+                    }
+                }else{
+                    etEmail.setError("Ingrese un correo válido");
+                }
             }else{
-                Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
+                etNombre.setError("Ingrese un nómbre válido");
             }
-            /*if(esUnNombreValido(nombre)){
-            }else{
-                Toast.makeText(this, "INGRESE UN NOMBRE VÁLIDO", Toast.LENGTH_LONG).show();
-            }*/
-
         }else{
             Toast.makeText(this, "Ingrese todos los campos", Toast.LENGTH_LONG).show();
         }
@@ -126,53 +129,52 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-    //Método antiguo guarda usuario.
-    /*private void guardaUsduario(String id, String nombre, String email) {
-        String tipoUsuario = preferencias.getString("usuario", "");
-        Usuario usuario = new Usuario();
-        usuario.setId(id);
-        usuario.setEmail(email);
-        usuario.setNombre(nombre);
 
-        if(tipoUsuario.equals("operador")){
-            database.child("Usuarios").child("Operadores").child(id).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(RegisterActivity.this, "Falló el registro", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }else if(tipoUsuario.equals("cliente")){
-            database.child("Usuarios").child("Clientes").child(id).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(RegisterActivity.this, "Falló el registro", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }*/
-
-    // Function to validate the username
+    // Función para validar nombre de usuario
     public static boolean esUnNombreValido(String nombre)
     {
         // Validar patrón de nombre
-        String regex = "^[A-Za-z]\\w{5,29}$";
+        String regex = "^[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+(\\s*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]*)*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+$";
         Pattern p = Pattern.compile(regex);
 
         //validar que no esté vacío
         if (nombre == null) {
             return false;
         }
-
-        // Se utilza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
+        // Se utiliza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
         Matcher m = p.matcher(nombre);
+        return m.matches();
+    }
+
+    // Función para validar mail
+    public static boolean esUnMailValido(String mail)
+    {
+        // Validar patrón de mail
+        String regex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        Pattern p = Pattern.compile(regex);
+
+        //validar que no esté vacío
+        if (mail == null) {
+            return false;
+        }
+        // Se utiliza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
+        Matcher m = p.matcher(mail);
+        return m.matches();
+    }
+
+    // Función para validar pass
+    public static boolean esUnPassValido(String pass)
+    {
+        // Validar patrón de password
+        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{8,20}$";
+        Pattern p = Pattern.compile(regex);
+
+        //validar que no esté vacío
+        if (pass == null) {
+            return false;
+        }
+        // Se utiliza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
+        Matcher m = p.matcher(pass);
         return m.matches();
     }
 }

@@ -26,6 +26,9 @@ import com.inacap.echameunamano.modelos.Operador;
 import com.inacap.echameunamano.providers.AuthProvider;
 import com.inacap.echameunamano.providers.OperadorProvider;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import dmax.dialog.SpotsDialog;
 
 public class RegOperadorActivity extends AppCompatActivity {
@@ -124,11 +127,19 @@ public class RegOperadorActivity extends AppCompatActivity {
 
         if(!nombre.isEmpty() && !email.isEmpty() && !pass.isEmpty() && !marca.isEmpty() && !patente.isEmpty()
                 && !grua.isEmpty() && !bateria.isEmpty() && !neumatico.isEmpty()){
-            if(pass.length()>=6){
-                dialogo.show();
-                registra(nombre, email, marca, patente, pass, grua, bateria, neumatico, tipo);
+            if(esUnNombreValido(nombre)){
+                if(esUnMailValido(email)){
+                    if(esUnPassValido(pass)){
+                        dialogo.show();
+                        registra(nombre, email, marca, patente, pass, grua, bateria, neumatico, tipo);
+                    }else{
+                        etContraseña.setError("Ingrese una contraseña válida");
+                    }
+                }else{
+                    etEmail.setError("Ingrese un correo válido");
+                }
             }else{
-                Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
+                etNombre.setError("Ingrese un nómbre válido");
             }
         }else{
             Toast.makeText(this, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
@@ -165,5 +176,53 @@ public class RegOperadorActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // Función para validar nombre de usuario
+    public static boolean esUnNombreValido(String nombre)
+    {
+        // Validar patrón de nombre
+        String regex = "^[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+(\\s*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]*)*[a-zA-ZÀ-ÿ\\u00f1\\u00d1]+$";
+        Pattern p = Pattern.compile(regex);
+
+        //validar que no esté vacío
+        if (nombre == null) {
+            return false;
+        }
+        // Se utiliza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
+        Matcher m = p.matcher(nombre);
+        return m.matches();
+    }
+
+    // Función para validar mail
+    public static boolean esUnMailValido(String mail)
+    {
+        // Validar patrón de mail
+        String regex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        Pattern p = Pattern.compile(regex);
+
+        //validar que no esté vacío
+        if (mail == null) {
+            return false;
+        }
+        // Se utiliza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
+        Matcher m = p.matcher(mail);
+        return m.matches();
+    }
+
+    // Función para validar pass
+    public static boolean esUnPassValido(String pass)
+    {
+        // Validar patrón de password
+        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{8,20}$";
+        Pattern p = Pattern.compile(regex);
+
+        //validar que no esté vacío
+        if (pass == null) {
+            return false;
+        }
+        // Se utiliza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
+        Matcher m = p.matcher(pass);
+        return m.matches();
     }
 }

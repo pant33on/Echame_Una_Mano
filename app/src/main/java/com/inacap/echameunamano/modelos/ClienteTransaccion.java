@@ -14,11 +14,12 @@ public class ClienteTransaccion {
     double origenLng;
     double destinoLat;
     double destinoLng;
+    double valor;
 
     public ClienteTransaccion() {
     }
 
-    public ClienteTransaccion(String idCliente, String idOperador, String tipoServicio, String destino, String origen, String tiempo, String km, String estado, double origenLat, double origenLng, double destinoLat, double destinoLng) {
+    public ClienteTransaccion(String idCliente, String idOperador, String tipoServicio, String destino, String origen, String tiempo, String km, String estado, double origenLat, double origenLng, double destinoLat, double destinoLng, double valor) {
         this.idCliente = idCliente;
         this.idOperador = idOperador;
         this.tipoServicio = tipoServicio;
@@ -31,9 +32,10 @@ public class ClienteTransaccion {
         this.origenLng = origenLng;
         this.destinoLat = destinoLat;
         this.destinoLng = destinoLng;
+        this.valor = valor;
     }
 
-    public ClienteTransaccion(String idHistorial,String idCliente, String idOperador, String tipoServicio, String destino, String origen, String tiempo, String km, String estado, double origenLat, double origenLng, double destinoLat, double destinoLng) {
+    public ClienteTransaccion(String idHistorial,String idCliente, String idOperador, String tipoServicio, String destino, String origen, String tiempo, String km, String estado, double origenLat, double origenLng, double destinoLat, double destinoLng, double valor) {
         this.idHistorial = idHistorial;
         this.idCliente = idCliente;
         this.idOperador = idOperador;
@@ -47,6 +49,15 @@ public class ClienteTransaccion {
         this.origenLng = origenLng;
         this.destinoLat = destinoLat;
         this.destinoLng = destinoLng;
+        this.valor = valor;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public String getIdHistorial() {

@@ -117,6 +117,7 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_operador);
+
         MyToolbar.show(this, "Operador", false);
         historialProvider = new HistorialProvider();
         authProvider = new AuthProvider();

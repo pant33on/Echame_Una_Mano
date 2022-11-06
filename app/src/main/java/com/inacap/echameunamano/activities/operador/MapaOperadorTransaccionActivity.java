@@ -533,4 +533,9 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Servicio en proceso", Toast.LENGTH_SHORT).show();
+    }
 }
