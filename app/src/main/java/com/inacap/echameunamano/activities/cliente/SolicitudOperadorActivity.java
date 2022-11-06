@@ -210,14 +210,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }else if(estado.equals("cancelado")){
-                        Toast.makeText(SolicitudOperadorActivity.this, "El operador no aceptó el servicio", Toast.LENGTH_SHORT).show();
-                        //COSA PARA VALIDAR
-                        //COSA PARA VALIDAR
                         repiteSolicitud();
-
-                        /*Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
-                        startActivity(intent);
-                        finish();*/
                     }
                 }
             }
@@ -232,6 +225,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
         operadorEncontrado = false;
         idOperadorEncontrado = "";
         radio = 0.1;
+        tvBuscando.setText("Buscando conductor");
         obtenOperadorCercano();
     }
 
@@ -242,6 +236,10 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                 if(!operadorEncontrado && !rechazoSolicitud(key)) {
                     idOperadorEncontrado = key;
                     operadorEncontrado = true;
+
+                    handler.postDelayed(runnable, 1000);
+                    tiempo = 0;
+
                     operadorEncontradoLatLng = new LatLng(location.latitude, location.longitude);
                     filtraPorServicio();
                 }
@@ -261,8 +259,17 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                     if(radio > 20){
                         noHay = true;
                         tvBuscando.setText("No se encontró un operador");
+
+                        //Manejo de botones
                         btnCancelarViaje.setVisibility(View.GONE);
                         btnVolver.setVisibility(View.VISIBLE);
+
+                        //MOVI ESTE INTET ACÁ, ANTES ESTABA EN EL REVISARESTADO "CANCELADO"
+                        //MOVI ESTE INTET ACÁ, ANTES ESTABA EN EL REVISARESTADO "CANCELADO"
+                        Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                        startActivity(intent);
+                        finish();
+
                         return;
                     }else {
                         obtenOperadorCercano();
@@ -512,13 +519,12 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        try {
-            if(listener != null){
-                clienteTransaccionProvider.getEstado(authProvider.getId()).removeEventListener(listener);
-            }
-            super.onDestroy();
-        }catch (Exception E){
-            Log.d("TAG_", E.getMessage());
+        super.onDestroy();
+        if(listener != null){
+            clienteTransaccionProvider.getEstado(authProvider.getId()).removeEventListener(listener);
+        }
+        if(handler != null){
+            handler.removeCallbacks(runnable);
         }
     }
 }

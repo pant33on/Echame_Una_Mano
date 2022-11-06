@@ -227,19 +227,15 @@ public class NotificacionActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        try {
-            if(handler != null) handler.removeCallbacks(runnable);
-            if(mediaPlayer != null){
-                if(mediaPlayer.isPlaying()){
-                    mediaPlayer.pause();
-                }
+        super.onDestroy();
+        if(handler != null) handler.removeCallbacks(runnable);
+        if(mediaPlayer != null){
+            if(mediaPlayer.isPlaying()){
+                mediaPlayer.pause();
             }
-            if(listener != null){
-                clienteTransaccionProvider.getClienteTransaccion(extraIdCliente).removeEventListener(listener);
-            }
-            super.onDestroy();
-        }catch (Exception e){
-            Log.d("TAG_", e.getMessage());
+        }
+        if(listener != null){
+            clienteTransaccionProvider.getClienteTransaccion(extraIdCliente).removeEventListener(listener);
         }
     }
 }
