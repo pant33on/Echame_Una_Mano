@@ -160,7 +160,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                 cancelarPeticion();
             }
         });
-        btnVolver.setOnClickListener(new View.OnClickListener() {
+        /*btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //cancelarPeticion();
@@ -173,7 +173,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                 //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
                 //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
             }
-        });
+        });*/
     }
 
     private void cancelarPeticion() {
@@ -331,8 +331,8 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                         noHay = true;
                         tvBuscando.setText("No se encontró un operador");
                         //Manejo de botones
-                        btnCancelarViaje.setVisibility(View.GONE);
-                        btnVolver.setVisibility(View.VISIBLE);
+                        //btnCancelarViaje.setVisibility(View.GONE);
+                        //btnVolver.setVisibility(View.VISIBLE);
 
                         finalizoLaBusqueda = true;
                         //MOVI ESTE INTENT ACÁ, ANTES ESTABA EN EL REVISARESTADO "CANCELADO"
