@@ -355,7 +355,8 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
     private void filtraPorServicio(){
         referencia = FirebaseDatabase.getInstance().getReference().child("Usuarios").child("Operadores").child(idOperadorEncontrado);
         tipoServicio = preferencias.getString("servicio", "");
-        referencia.child(tipoServicio).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        /*referencia.child(tipoServicio).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -372,8 +373,8 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
-        });
-        /*referencia.child(tipoServicio).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        });*/
+        referencia.child(tipoServicio).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.isSuccessful()){
@@ -383,16 +384,17 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                         tvBuscando.setText("Se ha encontrado un operador \nEsperando respuesta");
                         //enviaNotificacion();
                     }else{
-                        repiteSolicitud();
-                        //operadorEncontrado = false;
-                        //radio = radio + 0.1f;
-                        //No encontró ningún conductor
-                        //if(radio > 20){
-                            noHay = true;
-                            tvBuscando.setText("No se encontró un operador");
-                            btnCancelarViaje.setVisibility(View.GONE);
-                            btnVolver.setVisibility(View.VISIBLE);
-                            return;
+                        if(task.isSuccessful()){
+                            repiteSolicitud();
+                            //operadorEncontrado = false;
+                            //radio = radio + 0.1f;
+                            //No encontró ningún conductor
+                            //if(radio > 20){
+                            //noHay = true;
+                            //tvBuscando.setText("No se encontró un operador");
+                            //btnCancelarViaje.setVisibility(View.GONE);
+                            //btnVolver.setVisibility(View.VISIBLE);
+                            //return;
                         }else {
                             obtenOperadorCercano();
                         }
@@ -401,7 +403,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                     Log.d("TAG_","Error: " + task.getException().getMessage());
                 }
             }
-        });*/
+        });
     }
 
     //cliente transaccion metodo
@@ -456,10 +458,16 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                                     //si llegó respuesta desde el servidor
                                     if(response.body() != null){
                                         if (response.body().getSuccess() == 1){
-                                            Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(SolicitudOperadorActivity.this, TipoServicioActivity.class);
-                                            startActivity(intent);
-                                            finish();
+                                            //cancelarPeticion();
+                                            tipoServicio = preferencias.getString("servicio", "");
+                                            if(tipoServicio.equals("servicio_grua")){
+                                                Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                            //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
+                                            //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
                                         }else{
                                             Toast.makeText(SolicitudOperadorActivity.this, "No se pudo enviar la notificación", Toast.LENGTH_SHORT).show();
                                         }
@@ -478,7 +486,6 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-
                     }else{
                         Toast.makeText(SolicitudOperadorActivity.this, "NO SE PUEDE HACER SNAPSHOT", Toast.LENGTH_SHORT).show();
                     }
@@ -488,10 +495,16 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                 }
             });
         }else{
-            Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SolicitudOperadorActivity.this, TipoServicioActivity.class);
-            startActivity(intent);
-            finish();
+            //cancelarPeticion();
+            tipoServicio = preferencias.getString("servicio", "");
+            if(tipoServicio.equals("servicio_grua")){
+                Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
+            //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
         }
     }
 

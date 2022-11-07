@@ -142,8 +142,13 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         generaToken();
         estaElOperadorOcupado();
         revisaSiOperadorActivo();
+        eliminarOperadorOcupado();
 
         llenaDashboard();
+    }
+
+    private void eliminarOperadorOcupado() {
+        geofireProvider.eliminarOperadorOcupado(authProvider.getId());
     }
 
     private void revisaSiOperadorActivo() {

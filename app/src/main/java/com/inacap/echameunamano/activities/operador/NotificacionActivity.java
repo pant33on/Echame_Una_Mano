@@ -51,7 +51,7 @@ public class NotificacionActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private ValueEventListener listener;
 
-    private int contador = 60;
+    private int contador = 25;
     private Handler handler;
     Runnable runnable = new Runnable() {
         @Override
@@ -65,7 +65,6 @@ public class NotificacionActivity extends AppCompatActivity {
             }
         }
     };
-
     private void iniciaContador() {
         handler = new Handler();
         handler.postDelayed(runnable, 1000);
@@ -131,9 +130,17 @@ public class NotificacionActivity extends AppCompatActivity {
         if(handler != null) handler.removeCallbacks(runnable);
         clienteTransaccionProvider.actualizaEstado(extraIdCliente, "cancelado");
 
+        if(mediaPlayer != null){
+            if(mediaPlayer.isPlaying()){
+                mediaPlayer.pause();
+            }
+        }
+        if(listener != null){
+            clienteTransaccionProvider.getClienteTransaccion(extraIdCliente).removeEventListener(listener);
+        }
+
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(2);
-
         Intent intent = new Intent(NotificacionActivity.this, MapaOperadorActivity.class);
         startActivity(intent);
         finish();
@@ -164,10 +171,11 @@ public class NotificacionActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){
-                    Toast.makeText(NotificacionActivity.this, "El cliente canceló la búsqueda", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificacionActivity.this, "Se ha cancelado la búsqueda", Toast.LENGTH_SHORT).show();
                     clienteTransaccionProvider.getClienteTransaccion(extraIdCliente).removeEventListener(listener);
                     if(handler != null) handler.removeCallbacks(runnable);
                     Intent intent = new Intent(NotificacionActivity.this, MapaOperadorActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 }
@@ -225,7 +233,7 @@ public class NotificacionActivity extends AppCompatActivity {
         Toast.makeText(this, "Debe aceptar o cancelar el viaje", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
+    /*@Override
     protected void onDestroy() {
         super.onDestroy();
         if(handler != null) handler.removeCallbacks(runnable);
@@ -237,5 +245,5 @@ public class NotificacionActivity extends AppCompatActivity {
         if(listener != null){
             clienteTransaccionProvider.getClienteTransaccion(extraIdCliente).removeEventListener(listener);
         }
-    }
+    }*/
 }
