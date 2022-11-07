@@ -81,12 +81,12 @@ public class TipoServicioActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void irActivityBateria() {
-        Intent intent = new Intent(TipoServicioActivity.this, MapaClienteActivity.class);
+        Intent intent = new Intent(TipoServicioActivity.this, MapaClienteAlternativoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
     private void irActivityNeumatico() {
-        Intent intent = new Intent(TipoServicioActivity.this, MapaClienteActivity.class);
+        Intent intent = new Intent(TipoServicioActivity.this, MapaClienteAlternativoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

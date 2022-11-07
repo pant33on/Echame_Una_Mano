@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.cliente.MapaClienteActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".activities.cliente.MapaClienteAlternativoActivity">
 
     <include layout="@layout/action_bar_toolbar"></include>
 
@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:visibility="gone">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -76,4 +77,5 @@
         android:layout_marginBottom="20dp">
 
     </androidx.appcompat.widget.AppCompatButton>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

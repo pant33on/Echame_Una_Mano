@@ -224,7 +224,7 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
         //Elimino marcador y ruta trazada previamente
         mapa.clear();
         mapa.addMarker(new MarkerOptions().position(destinoLatLng).title("Destino").icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_azul)));
-        trazaRuta(destinoLatLng);
+        //trazaRuta(destinoLatLng);
         enviaNotificacion("iniciado");
     }
 
