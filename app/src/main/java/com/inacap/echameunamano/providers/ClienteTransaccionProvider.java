@@ -3,6 +3,7 @@ package com.inacap.echameunamano.providers;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.inacap.echameunamano.modelos.ClienteTransaccion;
 
 import java.util.HashMap;
@@ -40,6 +41,10 @@ public class ClienteTransaccionProvider {
 
     public DatabaseReference getClienteTransaccion(String idClienteTransaccion){
         return database.child(idClienteTransaccion);
+    }
+
+    public Query getTransaccionPorOperador(String idOperador){
+        return database.orderByChild("idOperador").equalTo(idOperador);
     }
 
     public Task<Void> eliminar(String idClienteTransaccion){

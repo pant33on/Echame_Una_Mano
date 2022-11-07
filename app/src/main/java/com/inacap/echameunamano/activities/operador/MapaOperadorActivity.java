@@ -141,7 +141,23 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         });
         generaToken();
         estaElOperadorOcupado();
+        revisaSiOperadorActivo();
+
         llenaDashboard();
+    }
+
+    private void revisaSiOperadorActivo() {
+        geofireProvider.obtieneOperador(authProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    ubicacionDeInicio();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
     public void llenaDashboard(){
@@ -265,6 +281,8 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
                     btnConectarse.setText("Desconectarse");
                     estaConectado = true;
                     ubicacionFused.requestLocationUpdates(ubicacionRequest, ubicacionCallback, Looper.myLooper());
+                    //Agregado
+                    //Agregado
                     mapa.setMyLocationEnabled(false);
                 }else{
                     alertaNoGPS();
@@ -275,6 +293,8 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         }else{
             if(gpsActivado()){
                 ubicacionFused.requestLocationUpdates(ubicacionRequest, ubicacionCallback, Looper.myLooper());
+                //Agregado
+                //Agregado
                 mapa.setMyLocationEnabled(false);
             }else{
                 alertaNoGPS();

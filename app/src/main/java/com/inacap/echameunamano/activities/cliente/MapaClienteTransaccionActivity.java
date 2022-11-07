@@ -303,6 +303,7 @@ public class MapaClienteTransaccionActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         Toast.makeText(this, "Servicio en proceso", Toast.LENGTH_SHORT).show();
+        //moveTaskToBack(true);
     }
 
     @Override

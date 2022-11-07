@@ -38,4 +38,8 @@ public class GeofireProvider {
     public DatabaseReference getUbicacionOperador(String idOperador){
         return dataBse.child(idOperador).child("l");
     }
+
+    public DatabaseReference obtieneOperador(String idOperador){
+        return dataBse.child(idOperador);
+    }
 }

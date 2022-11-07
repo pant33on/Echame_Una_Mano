@@ -57,6 +57,7 @@ import com.inacap.echameunamano.activities.MainActivity;
 import com.inacap.echameunamano.includes.MyToolbar;
 import com.inacap.echameunamano.modelos.Token;
 import com.inacap.echameunamano.providers.AuthProvider;
+import com.inacap.echameunamano.providers.ClienteTransaccionProvider;
 import com.inacap.echameunamano.providers.GeofireProvider;
 import com.inacap.echameunamano.providers.HistorialProvider;
 import com.inacap.echameunamano.providers.TokenProvider;
@@ -90,6 +91,7 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
     private GoogleMap.OnCameraIdleListener camaraListener;
     private Button btnBuscarServicio;
     private TokenProvider tokenProvider;
+    private ClienteTransaccionProvider clienteTransaccionProvider;
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
@@ -150,6 +152,7 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
 
         btnBuscarServicio = findViewById(R.id.btnBuscarServicio);
         tokenProvider = new TokenProvider();
+        clienteTransaccionProvider = new ClienteTransaccionProvider();
 
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.google_maps_key));
@@ -158,6 +161,7 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
         setPuntoOrigen();
         setPuntoDestino();
         onCameraMove();
+        eliminarClienteTransaccion();
 
         btnBuscarServicio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +172,10 @@ public class MapaClienteActivity extends AppCompatActivity implements OnMapReady
         generaToken();
         llenaDashboard();
         //revisaPermisos();
+    }
+
+    private void eliminarClienteTransaccion() {
+        clienteTransaccionProvider.eliminar(authProvider.getId());
     }
 
     //AÑADIR TIPO DE SERVICIO SELECCIONADO POR USUARIO

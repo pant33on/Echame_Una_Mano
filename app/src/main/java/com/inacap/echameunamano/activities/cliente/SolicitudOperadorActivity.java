@@ -93,6 +93,8 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
     private ClienteTransaccionProvider clienteTransaccionProvider;
     private AuthProvider authProvider;
     private ValueEventListener listener;
+    private boolean finalizoLaBusqueda = false;
+    private boolean sigueBuscando = false;
 
     private ArrayList <String> operadoresQueNo = new ArrayList<>();
     private Handler handler = new Handler();
@@ -106,6 +108,7 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
             }else{
                 if(idOperadorEncontrado != null){
                     if(!idOperadorEncontrado.equals("")){
+                        clienteTransaccionProvider.actualizaEstado(authProvider.getId(), "cancelado");
                         repiteSolicitud();
                     }
                 }
@@ -161,7 +164,14 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //cancelarPeticion();
-                finish();
+                tipoServicio = preferencias.getString("servicio", "");
+                if(tipoServicio.equals("servicio_grua")){
+                    Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
+                //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
             }
         });
     }
@@ -178,9 +188,18 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                         }
                     });
                 }else{
-                    Intent intent = new Intent(SolicitudOperadorActivity.this, TipoServicioActivity.class);
-                    startActivity(intent);
-                    finish();
+                    //PREGUNTAR POR TIPO SERVICIO
+                    //PREGUNTAR POR TIPO SERVICIO
+                    //PREGUNTAR POR TIPO SERVICIO
+                    tipoServicio = preferencias.getString("servicio", "");
+                    if(tipoServicio.equals("servicio_grua")){
+                        Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
+                    //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
+
                 }
             }
             @Override
@@ -206,11 +225,13 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                     String estado = snapshot.getValue().toString();
                     if(estado.equals("aceptado")){
                         Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteTransaccionActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
                     }else if(estado.equals("cancelado")){
-                        repiteSolicitud();
+                        if(sigueBuscando){
+                            repiteSolicitud();
+                        }
                     }
                 }
             }
@@ -221,27 +242,71 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
     }
 
     private void repiteSolicitud() {
+        if(handler != null){
+            handler.removeCallbacks(runnable);
+        }
+        tiempo = 0;
+        sigueBuscando = false;
         operadoresQueNo.add(idOperadorEncontrado);
         operadorEncontrado = false;
         idOperadorEncontrado = "";
         radio = 0.1;
+        finalizoLaBusqueda = false;
         tvBuscando.setText("Buscando conductor");
+
         obtenOperadorCercano();
     }
 
     private void obtenOperadorCercano(){
         geofireProvider.obtieneOperadores(origenLatLng, radio).addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
-            public void onKeyEntered(String key, GeoLocation location) {
-                if(!operadorEncontrado && !rechazoSolicitud(key)) {
-                    idOperadorEncontrado = key;
-                    operadorEncontrado = true;
+            public void onKeyEntered(final String key, final GeoLocation location) {
+                if(!operadorEncontrado && !rechazoSolicitud(key) && !finalizoLaBusqueda) {
+                    //Está buscando un operador todavía
+                    sigueBuscando = true;
 
-                    handler.postDelayed(runnable, 1000);
-                    tiempo = 0;
+                    clienteTransaccionProvider.getTransaccionPorOperador(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            boolean elOperadorFueNotificado = false;
 
-                    operadorEncontradoLatLng = new LatLng(location.latitude, location.longitude);
-                    filtraPorServicio();
+                            if(!finalizoLaBusqueda){
+                                for (DataSnapshot snap: snapshot.getChildren()) {
+                                    if(snap.exists()){
+                                        if(snap.hasChild("estado")){
+                                            String estado = snap.child("estado").getValue().toString();
+                                            Log.d("TAG_", "Estado: " + estado);
+
+                                            if(estado.equals("creado") || estado.equals("aceptado")){
+                                                elOperadorFueNotificado = true;
+                                                break;
+                                            }
+                                        }else{
+                                            Log.d("TAG_", "No existe child");
+                                        }
+                                    }else{
+                                        Log.d("TAG_", "No existe snapshot");
+                                    }
+                                }
+                                if(!elOperadorFueNotificado){
+                                    operadorEncontrado = true;
+                                    idOperadorEncontrado = key;
+
+                                    tiempo = 0;
+                                    handler.postDelayed(runnable, 1000);
+
+                                    operadorEncontradoLatLng = new LatLng(location.latitude, location.longitude);
+                                    filtraPorServicio();
+                                }else{
+                                    sigueBuscando = false;
+                                    obtenOperadorCercano();
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
                 }
             }
             @Override
@@ -253,23 +318,27 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
             @Override
             public void onGeoQueryReady() {
                 //Ingresa cuando termina búsqueda de operador en radio de 0.1 km
-                if (!operadorEncontrado) {
+                if (!operadorEncontrado && !sigueBuscando) {
                     radio = radio + 0.1;
                     //No encontró ningún conductor
-                    if(radio > 20){
+                    if(radio > 10){
+
+                        //Esto es para terminar totalmente la búsqueda
+                        if(listener != null){
+                            clienteTransaccionProvider.getEstado(authProvider.getId()).removeEventListener(listener);
+                        }
+
                         noHay = true;
                         tvBuscando.setText("No se encontró un operador");
-
                         //Manejo de botones
                         btnCancelarViaje.setVisibility(View.GONE);
                         btnVolver.setVisibility(View.VISIBLE);
 
-                        //MOVI ESTE INTET ACÁ, ANTES ESTABA EN EL REVISARESTADO "CANCELADO"
-                        //MOVI ESTE INTET ACÁ, ANTES ESTABA EN EL REVISARESTADO "CANCELADO"
+                        finalizoLaBusqueda = true;
+                        //MOVI ESTE INTENT ACÁ, ANTES ESTABA EN EL REVISARESTADO "CANCELADO"
                         Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
                         startActivity(intent);
                         finish();
-
                         return;
                     }else {
                         obtenOperadorCercano();
@@ -526,5 +595,6 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
         if(handler != null){
             handler.removeCallbacks(runnable);
         }
+        finalizoLaBusqueda = true;
     }
 }
