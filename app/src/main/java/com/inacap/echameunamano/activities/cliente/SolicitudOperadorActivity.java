@@ -189,17 +189,16 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                     });
                 }else{
                     //PREGUNTAR POR TIPO SERVICIO
-                    //PREGUNTAR POR TIPO SERVICIO
-                    //PREGUNTAR POR TIPO SERVICIO
                     tipoServicio = preferencias.getString("servicio", "");
                     if(tipoServicio.equals("servicio_grua")){
                         Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
                         startActivity(intent);
                         finish();
+                    }else if(tipoServicio.equals("servicio_bateria") || tipoServicio.equals("servicio_neumatico")){
+                        Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteAlternativoActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
-                    //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
-                    //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
-
                 }
             }
             @Override
@@ -336,9 +335,17 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
 
                         finalizoLaBusqueda = true;
                         //MOVI ESTE INTENT ACÁ, ANTES ESTABA EN EL REVISARESTADO "CANCELADO"
-                        Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
-                        startActivity(intent);
-                        finish();
+                        tipoServicio = preferencias.getString("servicio", "");
+                        if(tipoServicio.equals("servicio_grua")){
+                            Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else if(tipoServicio.equals("servicio_bateria") || tipoServicio.equals("servicio_neumatico")){
+                            Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteAlternativoActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                         return;
                     }else {
                         obtenOperadorCercano();
@@ -465,6 +472,10 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                                                 Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
                                                 startActivity(intent);
                                                 finish();
+                                            }else if(tipoServicio.equals("servicio_bateria") || tipoServicio.equals("servicio_neumatico")){
+                                                Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteAlternativoActivity.class);
+                                                startActivity(intent);
+                                                finish();
                                             }
                                             //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
                                             //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
@@ -481,10 +492,20 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
                                 }
                             });
                         }else{
-                            Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SolicitudOperadorActivity.this, TipoServicioActivity.class);
-                            startActivity(intent);
-                            finish();
+                            //cancelarPeticion();
+                            tipoServicio = preferencias.getString("servicio", "");
+                            if(tipoServicio.equals("servicio_grua")){
+                                Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else if(tipoServicio.equals("servicio_bateria") || tipoServicio.equals("servicio_neumatico")){
+                                Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteAlternativoActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
+                            //AGREGAR INTENT PARA SERVICIOS DE BATERIA Y NEUMATICO
                         }
                     }else{
                         Toast.makeText(SolicitudOperadorActivity.this, "NO SE PUEDE HACER SNAPSHOT", Toast.LENGTH_SHORT).show();
@@ -500,6 +521,10 @@ public class SolicitudOperadorActivity extends AppCompatActivity {
             if(tipoServicio.equals("servicio_grua")){
                 Toast.makeText(SolicitudOperadorActivity.this, "La solicitud se canceló correctamente", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteActivity.class);
+                startActivity(intent);
+                finish();
+            }else if(tipoServicio.equals("servicio_bateria") || tipoServicio.equals("servicio_neumatico")){
+                Intent intent = new Intent(SolicitudOperadorActivity.this, MapaClienteAlternativoActivity.class);
                 startActivity(intent);
                 finish();
             }

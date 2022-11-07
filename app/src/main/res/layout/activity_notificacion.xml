@@ -200,7 +200,7 @@
                 android:id="@+id/tvContador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="60"
+                android:text=""
                 android:textAlignment="center"
                 android:textSize="42sp"
                 android:layout_marginTop="10dp"

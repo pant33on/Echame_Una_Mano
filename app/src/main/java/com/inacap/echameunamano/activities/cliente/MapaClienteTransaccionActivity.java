@@ -154,7 +154,7 @@ public class MapaClienteTransaccionActivity extends AppCompatActivity implements
     private void iniciaTransaccion() {
         mapa.clear();
         mapa.addMarker(new MarkerOptions().position(destinoLatLng).title("Destino").icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_azul)));
-        trazaRuta(destinoLatLng);
+        //trazaRuta(destinoLatLng);
     }
 
     private void getClienteTransaccion() {

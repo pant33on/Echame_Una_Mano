@@ -15,6 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.cliente.MapaClienteAlternativoActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.cliente.TipoServicioActivity"/>
+        <activity
+            android:name=".activities.cliente.DetalleSolicitudAlternativaActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.cliente.MapaClienteAlternativoActivity"/>
+        <activity
             android:name=".activities.LoginOperadorActivity"
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
