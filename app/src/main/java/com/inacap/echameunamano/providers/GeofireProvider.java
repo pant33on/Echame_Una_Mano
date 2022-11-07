@@ -4,6 +4,7 @@ import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,7 +36,15 @@ public class GeofireProvider {
         return FirebaseDatabase.getInstance().getReference().child("Operadores_ocupados").child(idOperador);
     }
 
+    public Task<Void> eliminarOperadorOcupado(String idOperador){
+        return FirebaseDatabase.getInstance().getReference().child("Operadores_ocupados").child(idOperador).removeValue();
+    }
+
     public DatabaseReference getUbicacionOperador(String idOperador){
         return dataBse.child(idOperador).child("l");
+    }
+
+    public DatabaseReference obtieneOperador(String idOperador){
+        return dataBse.child(idOperador);
     }
 }

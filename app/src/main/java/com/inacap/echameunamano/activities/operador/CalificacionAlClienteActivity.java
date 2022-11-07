@@ -91,7 +91,8 @@ public class CalificacionAlClienteActivity extends AppCompatActivity {
                             clienteTransaccion.getOrigenLat(),
                             clienteTransaccion.getOrigenLng(),
                             clienteTransaccion.getDestinoLat(),
-                            clienteTransaccion.getDestinoLng()
+                            clienteTransaccion.getDestinoLng(),
+                            clienteTransaccion.getValor()
                     );
 
                 }
@@ -140,5 +141,9 @@ public class CalificacionAlClienteActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Debe ingresar una calificación", Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Debe realizar una calificación para poder salir", Toast.LENGTH_SHORT).show();
     }
 }

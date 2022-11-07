@@ -45,6 +45,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -297,6 +298,12 @@ public class MapaClienteTransaccionActivity extends AppCompatActivity implements
         }
         mapa.setMyLocationEnabled(true);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Servicio en proceso", Toast.LENGTH_SHORT).show();
+        //moveTaskToBack(true);
     }
 
     @Override

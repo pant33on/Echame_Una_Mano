@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetalleHistorialClienteActivity extends AppCompatActivity {
@@ -81,8 +83,10 @@ public class DetalleHistorialClienteActivity extends AppCompatActivity {
                         tvServicioDetalle.setText("Servicio: Servicio de neumático");
                     }
 
-                    //Falta agregar cálculo de tarifa
-                    tvValorDetalle.setText("Valor: $10.000");
+                    DecimalFormat formatea = new DecimalFormat("###,###.##");
+                    String totalF = formatea.format(historial.getValor());
+                    String valorFinal = totalF.replace(",", ".");
+                    tvValorDetalle.setText("Valor: $ "+valorFinal);
                     tvOrigenDetalle.setText("Origen: "+historial.getOrigen());
                     tvDestinoDetalle.setText("Destino: "+historial.getDestino());
                     tvDistanciaDetalle.setText("Distancia: "+historial.getKm());
@@ -97,7 +101,7 @@ public class DetalleHistorialClienteActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.exists()){
                                 String nombre = snapshot.child("nombre").getValue().toString();
-                                tvNombreDetalle.setText(nombre.toUpperCase());
+                                tvNombreDetalle.setText("Operador: "+nombre);
 
                                 if(snapshot.hasChild("imagen")){
                                     String imagen = snapshot.child("imagen").getValue().toString();

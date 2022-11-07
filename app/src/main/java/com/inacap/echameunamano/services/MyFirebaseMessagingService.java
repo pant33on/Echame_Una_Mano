@@ -46,12 +46,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String destino = data.get("destino");
         String tiempo = data.get("tiempo");
         String distancia = data.get("distancia");
+        String valor = data.get("valor");
 
         if(title != null){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 if(title.contains(("SOLICITUD DE SERVICIO"))) {
                     muestraNotificacionOreoAction(title, body, idCliente);
-                    muestraNotificacionActivity(idCliente, origen, destino, tiempo, distancia);
+                    muestraNotificacionActivity(idCliente, origen, destino, tiempo, distancia, valor);
                 }else if(title.contains(("VIAJE CANCELADO"))){
                     NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     manager.cancel(2);
@@ -62,7 +63,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }else{
                 if(title.contains(("SOLICITUD DE SERVICIO"))){
                     muestraNotificacionLegacyAction(title, body, idCliente);
-                    muestraNotificacionActivity(idCliente, origen, destino, tiempo, distancia);
+                    muestraNotificacionActivity(idCliente, origen, destino, tiempo, distancia, valor);
                 }else if(title.contains(("VIAJE CANCELADO"))) {
                     NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     manager.cancel(2);
@@ -74,7 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void muestraNotificacionActivity(String idCliente, String origen, String destino, String tiempo, String distancia) {
+    private void muestraNotificacionActivity(String idCliente, String origen, String destino, String tiempo, String distancia, String valor) {
         //Para activar telefono aunque esté bloqueado
         PowerManager pm = (PowerManager) getBaseContext().getSystemService(Context.POWER_SERVICE);
         boolean estaPantallaEncendida = pm.isScreenOn();
@@ -93,6 +94,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra("destino", destino);
         intent.putExtra("tiempo", tiempo);
         intent.putExtra("distancia", distancia);
+        intent.putExtra("valor", valor);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

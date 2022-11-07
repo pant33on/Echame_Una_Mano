@@ -117,6 +117,7 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_operador);
+
         MyToolbar.show(this, "Operador", false);
         historialProvider = new HistorialProvider();
         authProvider = new AuthProvider();
@@ -140,7 +141,28 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         });
         generaToken();
         estaElOperadorOcupado();
+        revisaSiOperadorActivo();
+        eliminarOperadorOcupado();
+
         llenaDashboard();
+    }
+
+    private void eliminarOperadorOcupado() {
+        geofireProvider.eliminarOperadorOcupado(authProvider.getId());
+    }
+
+    private void revisaSiOperadorActivo() {
+        geofireProvider.obtieneOperador(authProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    ubicacionDeInicio();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
     public void llenaDashboard(){
@@ -264,6 +286,8 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
                     btnConectarse.setText("Desconectarse");
                     estaConectado = true;
                     ubicacionFused.requestLocationUpdates(ubicacionRequest, ubicacionCallback, Looper.myLooper());
+                    //Agregado
+                    //Agregado
                     mapa.setMyLocationEnabled(false);
                 }else{
                     alertaNoGPS();
@@ -274,6 +298,8 @@ public class MapaOperadorActivity extends AppCompatActivity implements OnMapRead
         }else{
             if(gpsActivado()){
                 ubicacionFused.requestLocationUpdates(ubicacionRequest, ubicacionCallback, Looper.myLooper());
+                //Agregado
+                //Agregado
                 mapa.setMyLocationEnabled(false);
             }else{
                 alertaNoGPS();

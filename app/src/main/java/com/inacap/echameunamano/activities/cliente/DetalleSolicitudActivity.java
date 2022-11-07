@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,14 +24,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.inacap.echameunamano.R;
 import com.inacap.echameunamano.includes.MyToolbar;
+import com.inacap.echameunamano.modelos.AjusteValor;
+import com.inacap.echameunamano.providers.AjusteValorProvider;
 import com.inacap.echameunamano.providers.GoogleApiProvider;
 import com.inacap.echameunamano.utils.DecodePoints;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import retrofit2.Call;
@@ -51,14 +58,23 @@ public class DetalleSolicitudActivity extends AppCompatActivity implements OnMap
 
     private String tiempoFinal;
     private String distanciaFinal;
+    private double distanciaDouble;
+    private double tiempoDouble;
+    private double valorTotal;
 
+    private SharedPreferences preferencias;
+    private String tipoServicio = "";
     private GoogleApiProvider googleApiProvider;
+    private AjusteValorProvider ajusteValorProvider;
+
     private List<LatLng> polyLineLista;
     private PolylineOptions polylineOpciones;
     private TextView tvOrigen;
     private TextView tvDestino;
     private TextView tvTiempo;
     private TextView tvDistancia;
+    private TextView tvValor;
+    private TextView tvServicio;
     private Button btnSolicitarServicio;
 
 
@@ -81,10 +97,17 @@ public class DetalleSolicitudActivity extends AppCompatActivity implements OnMap
         origenLatLng = new LatLng(extraOrigenLat, extraOrigenLng);
         destinoLatLng = new LatLng(extraDestinoLat, extraDestinoLng);
         googleApiProvider = new GoogleApiProvider(DetalleSolicitudActivity.this);
+        ajusteValorProvider = new AjusteValorProvider();
+
+        //TRAER DEL SHARED PREFERENCES EL TIPO DE SERVICIO
+        preferencias = getApplicationContext().getSharedPreferences("tipoServicio", MODE_PRIVATE);
+
         tvOrigen = findViewById(R.id.tvOrigen);
         tvDestino = findViewById(R.id.tvDestino);
         tvTiempo = findViewById(R.id.tvTiempo);
         tvDistancia = findViewById(R.id.tvDistancia);
+        tvValor = findViewById(R.id.tvValor);
+        tvServicio = findViewById(R.id.tvServicio);
         tvOrigen.setText(extraNombreOrigen);
         tvDestino.setText(extraNombreDestino);
         btnSolicitarServicio = findViewById(R.id.btnSolicitarServicio);
@@ -108,6 +131,7 @@ public class DetalleSolicitudActivity extends AppCompatActivity implements OnMap
         intent.putExtra("destino_lng",destinoLatLng.longitude);
         intent.putExtra("tiempo",tiempoFinal);
         intent.putExtra("distancia",distanciaFinal);
+        intent.putExtra("valor",valorTotal);
         startActivity(intent);
         finish();
     }
@@ -140,8 +164,21 @@ public class DetalleSolicitudActivity extends AppCompatActivity implements OnMap
                     tiempoFinal = duration.getString("text");
                     distanciaFinal = distance.getString("text");
 
-                    tvTiempo.setText(tiempoFinal);
-                    tvDistancia.setText(distanciaFinal);
+                    String[] distanciaConvert = distanciaFinal.split(" ");
+                    distanciaDouble = Double.parseDouble(distanciaConvert[0]);
+                    distanciaFinal = String.valueOf(distanciaDouble);
+
+                    String[] tiempoConvert = tiempoFinal.split(" ");
+                    tiempoDouble = Double.parseDouble(tiempoConvert[0]);
+
+                    //Dar formato a tiempo
+                    DecimalFormat formatea = new DecimalFormat("#.#");
+                    String tiempoF = formatea.format(tiempoDouble);
+                    tiempoFinal = tiempoF;
+
+                    calculaPrecio(distanciaDouble);
+                    tvTiempo.setText(tiempoFinal+" mins");
+                    tvDistancia.setText(distanciaFinal+" km");
 
                 } catch (Exception e){
                     Log.d("TAG_","Error: " + e.getMessage());
@@ -151,6 +188,42 @@ public class DetalleSolicitudActivity extends AppCompatActivity implements OnMap
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
+            }
+        });
+    }
+
+    private void calculaPrecio(Double distanciaDouble) {
+        ajusteValorProvider.getAjusteValor().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    AjusteValor ajusteValor = snapshot.getValue(AjusteValor.class);
+                    double valorDistancia = distanciaDouble * ajusteValor.getKm();
+                    double valorGrua = ajusteValor.getSer_grua();
+                    double valorBateria = ajusteValor.getSer_bateria();
+                    double valorNeumatico = ajusteValor.getSer_neumatico();
+
+                    tipoServicio = preferencias.getString("servicio", "");
+                    String tipo = "";
+                    if(tipoServicio.equals("servicio_grua")){
+                        valorTotal = valorDistancia + valorGrua;
+                        tipo = "Grúa";
+                    }else if(tipoServicio.equals("servicio_bateria")){
+                        valorTotal = valorBateria;
+                        tipo = "Batería";
+                    }else if(tipoServicio.equals("servicio_neumatico")){
+                        valorTotal = valorNeumatico;
+                        tipo = "Neumático";
+                    }
+                    DecimalFormat formatea = new DecimalFormat("###,###.##");
+                    String totalF = formatea.format(valorTotal);
+                    String valorFinal = totalF.replace(",", ".");
+                    tvValor.setText("$ "+valorFinal);
+                    tvServicio.setText(tipo);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
