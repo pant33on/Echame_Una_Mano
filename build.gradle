@@ -9,6 +9,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'
         classpath 'com.google.gms:google-services:4.3.10'
+        //pruebas de rendimiento
+        classpath 'com.google.firebase:perf-plugin:1.4.2'
     }
 }
 
@@ -16,6 +18,9 @@ plugins {
     id 'com.android.application' version '7.2.1' apply false
     id 'com.android.library' version '7.2.1' apply false
 }
+//para pruenbas de rendimiento
+classpath 'com.google.firebase:perf-plugin:1.4.2'
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
