@@ -12,7 +12,7 @@ buildscript {
         //pruebas de rendimiento
         classpath 'com.google.firebase:perf-plugin:1.4.2'
     }
-}git
+}
 
 plugins {
     id 'com.android.application' version '7.2.1' apply false
