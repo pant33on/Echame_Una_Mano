@@ -236,6 +236,7 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
         clienteUbicacion.setLongitude(clienteLatLng.longitude);
         operadorUbicacion.setLatitude(operadorLatLng.latitude);
         operadorUbicacion.setLongitude(operadorLatLng.longitude);
+
         //SUPER función para traer la distancia (valor double) entre 2 posiciones LatLng
         distancia = operadorUbicacion.distanceTo(clienteUbicacion);
         return distancia;
@@ -262,6 +263,7 @@ public class MapaOperadorTransaccionActivity extends AppCompatActivity implement
                     mapa.addMarker(new MarkerOptions().position(origenLatLng).title("Recoger aquí").icon(BitmapDescriptorFactory.fromResource(R.drawable.icono_rojo)));
 
                     trazaRuta(origenLatLng);
+                    actualizaUbicacion();
                 }
             }
             @Override
