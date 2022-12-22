@@ -129,11 +129,15 @@ public class RegOperadorActivity extends AppCompatActivity {
                 && !grua.isEmpty() && !bateria.isEmpty() && !neumatico.isEmpty()){
             if(esUnNombreValido(nombre)){
                 if(esUnMailValido(email)){
-                    if(esUnPassValido(pass)){
-                        dialogo.show();
-                        registra(nombre, email, marca, patente, pass, grua, bateria, neumatico, tipo);
+                    if(esUnaPatenteValida(patente)){
+                        if(esUnPassValido(pass)){
+                            dialogo.show();
+                            registra(nombre, email, marca, patente, pass, grua, bateria, neumatico, tipo);
+                        }else{
+                            etContraseña.setError("Ingrese una contraseña válida");
+                        }
                     }else{
-                        etContraseña.setError("Ingrese una contraseña válida");
+                        etPatente.setError("Ingrese una patente válida");
                     }
                 }else{
                     etEmail.setError("Ingrese un correo válido");
@@ -207,6 +211,22 @@ public class RegOperadorActivity extends AppCompatActivity {
         }
         // Se utiliza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
         Matcher m = p.matcher(mail);
+        return m.matches();
+    }
+
+    // Función para validar nombre de usuario
+    public static boolean esUnaPatenteValida(String patente)
+    {
+        // Validar patrón de nombre
+        String regex = "^[a-z]{2}[\\.\\- ]?[0-9]{2}[\\.\\- ]?[0-9]{2}|[b-d,f-h,j-l,p,r-t,v-z]{2}[\\-\\. ]?[b-d,f-h,j-l,p,r-t,v-z]{2}[\\.\\- ]?[0-9]{2}$";
+        Pattern p = Pattern.compile(regex);
+
+        //validar que no esté vacío
+        if (patente == null) {
+            return false;
+        }
+        // Se utiliza el método matcher de la clase Pattern para validar que el nombre mantenga el patrón requerido
+        Matcher m = p.matcher(patente);
         return m.matches();
     }
 
